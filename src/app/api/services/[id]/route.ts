@@ -45,6 +45,15 @@ export async function PUT(
       .where(and(eq(services.id, id), eq(services.orgId, session.orgId)))
       .returning();
 
+    // Dispatch SSE Event
+    const { sseEmitter } = await import("@/lib/sse");
+    sseEmitter.emit("service-update", {
+      id: updated.id,
+      name: updated.name,
+      description: updated.description,
+      status: updated.status,
+    });
+
     return NextResponse.json(updated);
   } catch (err) {
     console.error(err);

@@ -1,59 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSSE } from "@/hooks/use-sse";
 import Link from "next/link";
 
-type Service = {
-  id: string;
-  name: string;
-  description: string | null;
-  status: "operational" | "degraded" | "down";
-};
-
-type Update = {
-  id: string;
-  message: string;
-  statusAtTime: string;
-  createdAt: string;
-};
-
-type Incident = {
-  id: string;
-  title: string;
-  severity: string;
-  status: string;
-  createdAt: string;
-  updates: Update[];
-  serviceIds: string[];
-};
-
 export default function PublicStatusPage() {
-  const [services, setServices] = useState<Service[]>([]);
-  const [incidents, setIncidents] = useState<Incident[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const fetchData = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const servicesRes = await fetch("/api/public/services");
-      const incidentsRes = await fetch("/api/public/incidents");
-      if (!servicesRes.ok || !incidentsRes.ok) throw new Error();
-
-      setServices(await servicesRes.json());
-      const incidentData = await incidentsRes.json();
-      setIncidents(incidentData.data || []);
-    } catch (err) {
-      setError("Unable to load systems status. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { services, incidents, loading, error } = useSSE();
 
   const getSystemStatus = () => {
     if (services.length === 0) return { label: "No Services Monitored", color: "bg-zinc-500", text: "text-zinc-700" };
@@ -100,11 +51,8 @@ export default function PublicStatusPage() {
         )}
 
         {error && (
-          <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-center space-y-2">
+          <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-center">
             <p className="text-sm text-red-700 font-medium">{error}</p>
-            <button onClick={fetchData} className="text-sm font-semibold text-red-800 hover:underline">
-              Retry
-            </button>
           </div>
         )}
 

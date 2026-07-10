@@ -16,14 +16,31 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Invalid order payload" }, { status: 400 });
     }
 
-    await db.transaction(async (tx) => {
+    const updatedServices = await db.transaction(async (tx) => {
+      const items = [];
       for (const item of order) {
-        await tx
+        const [updated] = await tx
           .update(services)
           .set({ sortOrder: item.sortOrder })
-          .where(and(eq(services.id, item.id), eq(services.orgId, session.orgId!)));
+          .where(and(eq(services.id, item.id), eq(services.orgId, session.orgId!)))
+          .returning();
+        items.push(updated);
       }
+      return items;
     });
+
+    // Dispatch SSE Event for each service
+    const { sseEmitter } = await import("@/lib/sse");
+    for (const service of updatedServices) {
+      if (service) {
+        sseEmitter.emit("service-update", {
+          id: service.id,
+          name: service.name,
+          description: service.description,
+          status: service.status,
+        });
+      }
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

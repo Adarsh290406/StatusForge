@@ -32,7 +32,7 @@ export async function POST(
       return NextResponse.json({ error: "Incident not found" }, { status: 404 });
     }
 
-    const newUpdate = await db.transaction(async (tx) => {
+    const result = await db.transaction(async (tx) => {
       // 1. Post the timeline update
       const [update] = await tx
         .insert(incidentUpdates)
@@ -52,6 +52,7 @@ export async function POST(
       await tx.update(incidents).set(incidentUpdatesMap).where(eq(incidents.id, id));
 
       // 3. Resolution Workflow: Auto-flip all linked services to 'operational'
+      const updatedServiceIds: string[] = [];
       if (statusAtTime === "resolved") {
         const linkedServices = await tx
           .select({ serviceId: incidentServices.serviceId })
@@ -66,13 +67,29 @@ export async function POST(
               statusChangedAt: new Date(),
             })
             .where(eq(services.id, link.serviceId));
+          updatedServiceIds.push(link.serviceId);
         }
       }
 
-      return update;
+      return { update, updatedServiceIds };
     });
 
-    return NextResponse.json(newUpdate, { status: 201 });
+    // Dispatch SSE Event
+    const { sseEmitter } = await import("@/lib/sse");
+    if (statusAtTime === "resolved") {
+      sseEmitter.emit("incident-resolved", {
+        id,
+        update: result.update,
+        resolvedServiceIds: result.updatedServiceIds,
+      });
+    } else {
+      sseEmitter.emit("incident-update", {
+        id,
+        update: result.update,
+      });
+    }
+
+    return NextResponse.json(result.update, { status: 201 });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Failed to post update" }, { status: 500 });

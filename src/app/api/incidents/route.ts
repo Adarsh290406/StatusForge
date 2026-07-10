@@ -78,6 +78,14 @@ export async function POST(req: Request) {
       return incident;
     });
 
+    // Dispatch SSE Event
+    const { sseEmitter } = await import("@/lib/sse");
+    sseEmitter.emit("incident-created", {
+      ...newIncident,
+      updates: [],
+      serviceIds,
+    });
+
     return NextResponse.json(newIncident, { status: 201 });
   } catch (err) {
     console.error(err);
