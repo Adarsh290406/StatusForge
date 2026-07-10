@@ -5,13 +5,7 @@
       "schedule": "* * * * *"
     }
   ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/status",
-      "permanent": false
-    }
-  ],
+
   "headers": [
     {
       "source": "/(.*)",
