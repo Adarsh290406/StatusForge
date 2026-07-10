@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Public status page and incident tracker",
 };
 
+import { ReticleDev } from "./reticle-dev";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {process.env.NODE_ENV === "development" ? <ReticleDev /> : null}
+      </body>
     </html>
   );
 }
