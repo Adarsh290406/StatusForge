@@ -33,7 +33,7 @@ export async function GET() {
           const activeIncidents = await db
             .select()
             .from(incidents)
-            .where(and => eq(incidents.orgId, firstOrg.id))
+            .where(eq(incidents.orgId, firstOrg.id))
             .orderBy(incidents.createdAt);
 
           // Filter out resolved ones for initial ongoing snapshot
