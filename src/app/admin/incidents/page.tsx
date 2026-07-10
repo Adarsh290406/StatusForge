@@ -50,6 +50,14 @@ export default function IncidentsDashboard() {
 
   useEffect(() => {
     fetchData();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeTab]);
 
   const handleCreate = async (e: React.FormEvent) => {

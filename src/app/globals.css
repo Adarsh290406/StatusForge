@@ -127,3 +127,8 @@
     @apply font-sans;
     }
 }
+
+/* Custom CSS Transitions for Real-Time Status Dots */
+.status-dot-transition {
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

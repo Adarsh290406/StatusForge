@@ -58,6 +58,14 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
 
   useEffect(() => {
     fetchData();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowResolveModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [id]);
 
   const handlePostUpdate = async (e: React.FormEvent) => {

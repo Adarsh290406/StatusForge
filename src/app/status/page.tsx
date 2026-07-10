@@ -32,17 +32,24 @@ export default function PublicStatusPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 p-6 flex items-center justify-center">
+      {/* Floating Reconnecting Banner */}
+      {error && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-full bg-yellow-500 px-4 py-1.5 text-xs font-semibold text-white shadow-md animate-bounce" role="alert">
+          ⚠️ {error}
+        </div>
+      )}
+
       <div className="w-full max-w-2xl space-y-6">
         
         {/* Header & Logo */}
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold tracking-tight text-zinc-900">StatusForge</h1>
-          <Link href="/login" className="text-xs font-medium text-zinc-500 hover:text-zinc-900">
+          <Link href="/login" className="text-xs font-medium text-zinc-500 hover:text-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 rounded p-1" aria-label="Navigate to Admin Login">
             Admin Login
           </Link>
         </div>
 
-        {/* Loading / Error States */}
+        {/* Loading States */}
         {loading && (
           <div className="space-y-4">
             <div className="h-16 w-full animate-pulse rounded-lg bg-zinc-200" />
@@ -50,17 +57,11 @@ export default function PublicStatusPage() {
           </div>
         )}
 
-        {error && (
-          <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-center">
-            <p className="text-sm text-red-700 font-medium">{error}</p>
-          </div>
-        )}
-
-        {!loading && !error && (
+        {!loading && (
           <>
             {/* System Status Banner */}
-            <div className={`flex items-center gap-3 rounded-lg border border-zinc-200/60 p-4 font-semibold text-sm ${systemStatus.text}`}>
-              <span className={`h-2.5 w-2.5 rounded-full ${systemStatus.color} animate-ping`} />
+            <div className={`flex items-center gap-3 rounded-lg border border-zinc-200/60 p-4 font-semibold text-sm ${systemStatus.text}`} role="status">
+              <span className={`h-2.5 w-2.5 rounded-full ${systemStatus.color} animate-ping status-dot-transition`} />
               {systemStatus.label}
             </div>
 
@@ -80,7 +81,7 @@ export default function PublicStatusPage() {
                         )}
                       </div>
                       <span className="flex items-center gap-2 text-xs font-semibold text-zinc-500 capitalize">
-                        <span className={`h-2.5 w-2.5 rounded-full ${getStatusColor(service.status)}`} />
+                        <span className={`h-2.5 w-2.5 rounded-full status-dot-transition ${getStatusColor(service.status)}`} />
                         {service.status}
                       </span>
                     </li>

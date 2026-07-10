@@ -39,6 +39,14 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchServices();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const handleCreateOrUpdate = async (e: React.FormEvent) => {
