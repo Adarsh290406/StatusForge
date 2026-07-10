@@ -53,11 +53,24 @@ export function useSSE() {
     eventSource.addEventListener("service-update", (e) => {
       try {
         const data = JSON.parse(e.data); // { id, name, description, status }
-        setServices((prev) =>
-          prev.map((s) => (s.id === data.id ? { ...s, ...data } : s))
-        );
+        setServices((prev) => {
+          const exists = prev.some((s) => s.id === data.id);
+          if (exists) {
+            return prev.map((s) => (s.id === data.id ? { ...s, ...data } : s));
+          }
+          return [...prev, data];
+        });
       } catch (err) {
         console.error("Failed to parse service-update:", err);
+      }
+    });
+
+    eventSource.addEventListener("service-delete", (e) => {
+      try {
+        const data = JSON.parse(e.data); // { id }
+        setServices((prev) => prev.filter((s) => s.id !== data.id));
+      } catch (err) {
+        console.error("Failed to parse service-delete:", err);
       }
     });
 

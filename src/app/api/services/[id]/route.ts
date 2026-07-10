@@ -104,10 +104,14 @@ export async function DELETE(
       );
     }
 
-    // 3. Perform delete
+    // Perform delete
     await db
       .delete(services)
       .where(and(eq(services.id, id), eq(services.orgId, session.orgId)));
+
+    // Dispatch SSE Event
+    const { sseEmitter } = await import("@/lib/sse");
+    sseEmitter.emit("service-delete", { id });
 
     return NextResponse.json({ success: true });
   } catch (err) {

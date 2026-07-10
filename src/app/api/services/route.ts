@@ -52,6 +52,15 @@ export async function POST(req: Request) {
       })
       .returning();
 
+    // Dispatch SSE Event
+    const { sseEmitter } = await import("@/lib/sse");
+    sseEmitter.emit("service-update", {
+      id: newService.id,
+      name: newService.name,
+      description: newService.description,
+      status: newService.status,
+    });
+
     return NextResponse.json(newService, { status: 201 });
   } catch (err) {
     console.error(err);

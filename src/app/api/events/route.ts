@@ -80,7 +80,7 @@ export async function GET() {
       };
 
       // Register listener bindings
-      const eventNames = ["service-update", "incident-created", "incident-update", "incident-resolved"];
+      const eventNames = ["service-update", "service-delete", "incident-created", "incident-update", "incident-resolved"];
       const handlers = eventNames.map((name) => {
         const handler = (data: any) => onEvent(name, data);
         sseEmitter.on(name, handler);
