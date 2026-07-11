@@ -175,7 +175,7 @@ export default function LandingPage() {
               {/* Right: Hero illustration */}
               <div className="flex items-center justify-center lg:h-96">
                 <Image
-                  src="/hero.png"
+                  src="/hero.jpg"
                   alt="StatusForge cloud database illustration"
                   width={480}
                   height={480}
