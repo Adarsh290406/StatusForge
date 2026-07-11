@@ -66,7 +66,8 @@ export default function PublicIncidentHistory() {
             href="/status"
             className="flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1"
           >
-            ← Back to current status
+            <span className="hidden sm:inline">← Back to current status</span>
+            <span className="inline sm:hidden">← Status</span>
           </Link>
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Incident History</h1>

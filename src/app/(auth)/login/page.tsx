@@ -3,17 +3,12 @@
 import { useActionState } from "react";
 import { login } from "@/actions/auth";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
   const [state, action, isPending] = useActionState(login, null);
 
   return (
-    <div className="space-y-6 relative">
-      {/* Theme Toggle inside auth layout */}
-      <div className="absolute -top-4 -right-4">
-        <ThemeToggle />
-      </div>
+    <div className="space-y-6">
 
       {/* Brand Header */}
       <div className="space-y-2 text-center pt-2">

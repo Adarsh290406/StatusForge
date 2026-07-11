@@ -9,7 +9,8 @@
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "screenshots": "node scripts/take-screenshots.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -36,6 +37,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "puppeteer": "^25.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
