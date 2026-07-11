@@ -14,8 +14,23 @@ async function run() {
     console.log(`Created directory: ${SCREENSHOTS_DIR}`);
   }
 
+  // Look for system Chrome executable to avoid download issues
+  const possiblePaths = [
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  ];
+  let executablePath = undefined;
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) {
+      executablePath = p;
+      console.log(`Found system Chrome at: ${p}`);
+      break;
+    }
+  }
+
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
@@ -54,30 +69,31 @@ async function run() {
     await page.goto(`${APP_URL}/login`, { waitUntil: "networkidle2" });
 
     // Fill credentials
-    console.log("Entering demo credentials...");
+    console.log("Entering credentials...");
     await page.type('input[name="email"]', "demo@demo.com");
     await page.type('input[name="password"]', "demo1234");
     
     // Submit form
     console.log("Submitting login form...");
-    await Promise.all([
-      page.click('button[type="submit"]'),
-      page.waitForNavigation({ waitUntil: "networkidle2", timeout: 10000 }),
-    ]);
+    await page.click('button[type="submit"]');
+    
+    // Wait for SPA router redirection or fail re-render
+    console.log("Waiting 5 seconds for transition to settle...");
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     const currentUrl = page.url();
-    console.log(`Redirection url: ${currentUrl}`);
+    console.log(`Current URL: ${currentUrl}`);
 
     if (currentUrl.includes("/admin")) {
-      console.log("Login successful! Capturing Admin Dashboard...");
+      console.log("Authentication successful! Capturing Admin Dashboard...");
       const adminPath = path.join(SCREENSHOTS_DIR, "mobile_admin_dashboard.png");
       await page.screenshot({ path: adminPath });
       console.log(`Saved: ${adminPath}`);
     } else {
-      console.log("Authentication redirect did not land on /admin. Saving failed state screenshot...");
-      const failPath = path.join(SCREENSHOTS_DIR, "mobile_login_failed.png");
+      console.log(`Authentication landed on ${currentUrl}. Saving screenshot anyway...`);
+      const failPath = path.join(SCREENSHOTS_DIR, "mobile_admin_login_result.png");
       await page.screenshot({ path: failPath });
-      console.log(`Saved failure screenshot: ${failPath}`);
+      console.log(`Saved screenshot: ${failPath}`);
     }
 
   } catch (error) {
