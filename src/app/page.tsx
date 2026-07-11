@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { FaqAccordion } from "@/components/faq-accordion";
 
 /* ─── Page-level SEO ─────────────────────────────────── */
@@ -171,13 +172,16 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Right placeholder */}
-              <div className="flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-gradient-to-br from-blue-50 to-indigo-100 p-12 text-center shadow-inner lg:h-80">
-                <p className="text-sm font-semibold text-gray-400">
-                  Hero Image Placeholder
-                  <br />
-                  <span className="text-xs font-normal">Replace with screenshot / illustration</span>
-                </p>
+              {/* Right: Hero illustration */}
+              <div className="flex items-center justify-center lg:h-96">
+                <Image
+                  src="/hero.png"
+                  alt="StatusForge cloud database illustration"
+                  width={480}
+                  height={480}
+                  priority
+                  className="w-full max-w-sm lg:max-w-none drop-shadow-xl"
+                />
               </div>
             </div>
           </section>
