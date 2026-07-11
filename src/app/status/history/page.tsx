@@ -88,7 +88,7 @@ export default function PublicIncidentHistory() {
               setSearch(e.target.value);
               setPage(1); // reset to first page on search
             }}
-            className="w-full rounded-lg border border-gray-200 dark:border-gray-800 pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white dark:bg-gray-850 text-gray-900 dark:text-white shadow-sm"
+            className="w-full rounded-lg border border-gray-200 dark:border-gray-800 pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm"
             placeholder="Search past incidents by title..."
           />
         </div>
@@ -106,7 +106,7 @@ export default function PublicIncidentHistory() {
             <p className="text-sm text-red-700 dark:text-red-400 font-medium">{error}</p>
             <button
               onClick={fetchHistory}
-              className="rounded border border-gray-300 dark:border-gray-705 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               Retry
             </button>
@@ -117,7 +117,7 @@ export default function PublicIncidentHistory() {
         {!loading && !error && (
           <div className="flex-1 flex flex-col justify-between">
             {incidents.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+              <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
                 <span className="text-4xl select-none">📁</span>
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white">
@@ -142,7 +142,7 @@ export default function PublicIncidentHistory() {
               <div className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   {incidents.map((incident) => (
-                    <div key={incident.id} className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div key={incident.id} className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm space-y-4 flex flex-col justify-between">
                       <div className="space-y-3">
                         <div className="flex items-start justify-between gap-4">
                           <h4 className="text-base font-bold text-gray-900 dark:text-white leading-tight">
@@ -178,7 +178,7 @@ export default function PublicIncidentHistory() {
                     <button
                       onClick={() => setPage((p) => Math.max(p - 1, 1))}
                       disabled={page === 1}
-                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-750 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:opacity-50 transition-colors"
+                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:opacity-50 transition-colors"
                     >
                       Previous
                     </button>
@@ -188,7 +188,7 @@ export default function PublicIncidentHistory() {
                     <button
                       onClick={() => setPage((p) => (p * 20 < total ? p + 1 : p))}
                       disabled={page * 20 >= total}
-                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-750 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:opacity-50 transition-colors"
+                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:opacity-50 transition-colors"
                     >
                       Next
                     </button>

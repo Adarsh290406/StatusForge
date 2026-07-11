@@ -97,7 +97,7 @@ export default function IncidentsDashboard() {
   const getSeverityBadge = (sev: string) => {
     if (sev === "critical") return "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50";
     if (sev === "major") return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-900/50";
-    return "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-250 dark:border-gray-700";
+    return "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700";
   };
 
   const getAffectedServiceNames = (serviceIds: string[]) => {
@@ -168,13 +168,13 @@ export default function IncidentsDashboard() {
         </div>
 
         {/* Tabs styled as pill switcher */}
-        <div className="flex gap-2 p-1 bg-gray-250/60 dark:bg-gray-800 rounded-lg max-w-xs border border-gray-200 dark:border-gray-700">
+        <div className="flex gap-2 p-1 bg-gray-200/60 dark:bg-gray-800 rounded-lg max-w-xs border border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setActiveTab("open")}
             className={`flex-1 text-center py-1.5 px-3 rounded-md text-xs font-bold transition-all ${
               activeTab === "open"
                 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-250"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             Open
@@ -184,7 +184,7 @@ export default function IncidentsDashboard() {
             className={`flex-1 text-center py-1.5 px-3 rounded-md text-xs font-bold transition-all ${
               activeTab === "resolved"
                 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-250"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             Resolved
@@ -205,7 +205,7 @@ export default function IncidentsDashboard() {
             <p className="text-sm text-red-700 dark:text-red-450 font-medium">{error}</p>
             <button
               onClick={fetchData}
-              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               Retry
             </button>
@@ -214,7 +214,7 @@ export default function IncidentsDashboard() {
 
         {/* Empty state component */}
         {!loading && !error && incidents.length === 0 && (
-          <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+          <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
             <span className="text-4xl select-none">🚨</span>
             <div className="space-y-1">
               <h3 className="text-sm font-bold text-gray-900 dark:text-white">
@@ -241,7 +241,7 @@ export default function IncidentsDashboard() {
             {incidents.map((incident) => (
               <div
                 key={incident.id}
-                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm flex flex-col justify-between space-y-4"
+                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-4">
@@ -265,7 +265,7 @@ export default function IncidentsDashboard() {
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-gray-100 dark:border-gray-850 flex items-center justify-between text-xs font-semibold text-gray-400">
+                <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-xs font-semibold text-gray-400">
                   <span>Logged {new Date(incident.createdAt).toLocaleDateString()}</span>
                   <span className="capitalize text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-2 py-0.5 rounded-full text-[10px] font-bold">
                     {incident.status}
@@ -280,7 +280,7 @@ export default function IncidentsDashboard() {
       {/* Report Incident Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-850 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-805">
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-805">
             <h2 className="text-base font-bold text-gray-900 dark:text-white">Report New Incident</h2>
             <form onSubmit={handleCreate} className="space-y-4">
               <div className="space-y-1">
@@ -333,7 +333,7 @@ export default function IncidentsDashboard() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">Affects Services</label>
-                <div className="max-h-36 overflow-y-auto border border-gray-200 dark:border-gray-750 rounded-md p-2 space-y-1 bg-gray-50/50 dark:bg-gray-900/30">
+                <div className="max-h-36 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-md p-2 space-y-1 bg-gray-50/50 dark:bg-gray-900/30">
                   {services.map((service) => (
                     <label key={service.id} className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-white transition-colors">
                       <input
@@ -352,7 +352,7 @@ export default function IncidentsDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                  className="rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>

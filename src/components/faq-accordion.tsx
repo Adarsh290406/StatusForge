@@ -25,7 +25,7 @@ export function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 shadow-sm">
+    <div className="divide-y divide-gray-200 dark:divide-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 shadow-sm">
       {faqs.map((faq, i) => (
         <div key={i}>
           <button

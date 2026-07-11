@@ -216,7 +216,7 @@ export default function AdminDashboard() {
             <p className="text-sm text-red-700 dark:text-red-450 font-medium">{error}</p>
             <button
               onClick={fetchServices}
-              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               Retry
             </button>
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
 
         {/* Empty state component */}
         {!loading && !error && services.length === 0 && (
-          <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+          <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
             <span className="text-4xl select-none">🖥️</span>
             <div className="space-y-1">
               <h3 className="text-sm font-bold text-gray-900 dark:text-white">No services yet</h3>
@@ -251,7 +251,7 @@ export default function AdminDashboard() {
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm flex flex-col justify-between space-y-6"
+                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm flex flex-col justify-between space-y-6"
               >
                 {/* Header details */}
                 <div className="space-y-2">
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                         setDescription(service.description || "");
                         setShowModal(true);
                       }}
-                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                     >
                       Edit
                     </button>
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
       {/* Service Modal Overlay Form */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-850 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-800">
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-800">
             <h2 className="text-base font-bold text-gray-900 dark:text-white">
               {editId ? "Edit Service details" : "Add New Service component"}
             </h2>
@@ -353,7 +353,7 @@ export default function AdminDashboard() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded border border-gray-200 dark:border-gray-850 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                  className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   placeholder="e.g. Website API"
                 />
               </div>
@@ -365,7 +365,7 @@ export default function AdminDashboard() {
                   id="modal-desc"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full rounded border border-gray-200 dark:border-gray-850 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                  className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   placeholder="e.g. Serves critical rest endpoints"
                   rows={3}
                 />
@@ -374,7 +374,7 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                  className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>

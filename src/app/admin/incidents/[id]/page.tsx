@@ -110,7 +110,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
   const getSeverityBadgeClass = (sev: string) => {
     if (sev === "critical") return "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50";
     if (sev === "major") return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400 border-yellow-250 dark:border-yellow-900/50";
-    return "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-250 dark:border-gray-700";
+    return "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700";
   };
 
   if (loading) {
@@ -127,7 +127,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
         <div className="text-red-600 dark:text-red-400 font-semibold">{error || "Incident not found."}</div>
         <Link
           href="/admin/incidents"
-          className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-850 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
         >
           Back to Incidents
         </Link>
@@ -195,7 +195,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
             Incidents
           </Link>
           <span>&gt;</span>
-          <span className="text-gray-650 dark:text-gray-400 truncate max-w-[200px] inline-block align-bottom">
+          <span className="text-gray-600 dark:text-gray-400 truncate max-w-[200px] inline-block align-bottom">
             {incident.title}
           </span>
         </div>
@@ -203,7 +203,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
         {/* Top title card and main details */}
         <div className="grid gap-6 md:grid-cols-3 items-start">
           <div className="md:col-span-2 space-y-6">
-            <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm space-y-4">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm space-y-4">
               <div className="flex items-start justify-between gap-4 flex-wrap pb-4 border-b border-gray-100 dark:border-gray-800">
                 <div className="space-y-1">
                   <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-snug">{incident.title}</h1>
@@ -243,7 +243,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
             </div>
 
             {/* Timeline updates history list */}
-            <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm space-y-6">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm space-y-6">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-800 pb-2">Timeline</h3>
               {incident.updates.length === 0 ? (
                 <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-6">No updates logged yet.</p>
@@ -270,7 +270,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
 
           {/* Right Column: Update status form cards */}
           {incident.status !== "resolved" && (
-            <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-855 p-6 shadow-sm space-y-4">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm space-y-4">
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
                 Post New Update
               </h3>
@@ -321,7 +321,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
       {/* Resolve Incident Modal Overlay */}
       {showResolveModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-850 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-800">
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-800">
             <h2 className="text-base font-bold text-gray-900 dark:text-white">Resolve Incident</h2>
             <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
               Provide a closing report. Linked components will automatically return to Operational.
@@ -336,7 +336,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full rounded border border-gray-200 dark:border-gray-850 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                  className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   placeholder="e.g. Patch deployed successfully."
                   rows={3}
                 />
@@ -346,7 +346,7 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
                 <button
                   type="button"
                   onClick={() => setShowResolveModal(false)}
-                  className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                  className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>

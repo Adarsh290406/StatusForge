@@ -84,7 +84,7 @@ function FeatureCard({
   body: string;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm flex flex-col gap-4">
+    <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm flex flex-col gap-4">
       <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center text-sm font-bold text-blue-700 dark:text-blue-300">
         {letter}
       </div>
@@ -166,7 +166,7 @@ export default function LandingPage() {
                   </Link>
                   <Link
                     href="/signup"
-                    className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 px-6 py-3 text-sm font-bold text-gray-700 dark:text-gray-350 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
+                    className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-6 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
                   >
                     Deploy Your Own →
                   </Link>
@@ -197,7 +197,7 @@ export default function LandingPage() {
           </section>
 
           {/* ── 3. HOW IT WORKS ───────────────────────────── */}
-          <section className="border-y border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 py-20">
+          <section className="border-y border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 py-20">
             <div className="mx-auto max-w-6xl px-6">
               <div className="mb-12 text-center">
                 <h2 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
@@ -274,7 +274,7 @@ export default function LandingPage() {
           </section>
 
           {/* ── 5. FAQ ────────────────────────────────────── */}
-          <section className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 py-20">
+          <section className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 py-20">
             <div className="mx-auto max-w-3xl px-6">
               <div className="mb-12 text-center">
                 <h2 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">

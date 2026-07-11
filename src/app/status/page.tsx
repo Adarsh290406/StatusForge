@@ -122,7 +122,7 @@ export default function PublicStatusPage() {
           <div className="grid gap-8 lg:grid-cols-3 items-start flex-1">
             {/* Left/Middle Column: Services List (Spans 2 columns on lg) */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm space-y-4">
+              <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm space-y-4">
                 <div className="pb-2 border-b border-gray-100 dark:border-gray-800">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Services</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">Current status of monitored components</p>
@@ -139,9 +139,9 @@ export default function PublicStatusPage() {
                       return (
                         <div key={service.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
                           <div className="space-y-1">
-                            <h4 className="text-sm font-bold text-gray-850 dark:text-gray-250">{service.name}</h4>
+                            <h4 className="text-sm font-bold text-gray-800 dark:text-gray-200">{service.name}</h4>
                             {service.description && (
-                              <p className="text-xs text-gray-450 dark:text-gray-400 font-medium">{service.description}</p>
+                              <p className="text-xs text-gray-400 dark:text-gray-400 font-medium">{service.description}</p>
                             )}
                           </div>
                           <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold border ${statusDetails.text}`}>
@@ -158,7 +158,7 @@ export default function PublicStatusPage() {
 
             {/* Right Column: Ongoing Incidents */}
             <div className="space-y-6">
-              <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm space-y-4">
+              <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 shadow-sm space-y-4">
                 <div className="pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Ongoing Incidents</h3>
                   <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
@@ -172,25 +172,25 @@ export default function PublicStatusPage() {
                   <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
                     {incidents.map((incident) => (
                       <div key={incident.id} className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30 space-y-4">
-                        <div className="flex items-start justify-between border-b border-gray-250/65 dark:border-gray-800 pb-2">
+                        <div className="flex items-start justify-between border-b border-gray-200/65 dark:border-gray-800 pb-2">
                           <div className="space-y-0.5">
                             <h4 className="text-sm font-bold text-gray-900 dark:text-white">{incident.title}</h4>
                             <span className="inline-flex rounded-full bg-red-100 dark:bg-red-950/40 px-2 py-0.5 text-[10px] font-bold text-red-800 dark:text-red-400 uppercase tracking-wider border border-red-200 dark:border-red-900/30">
                               {incident.severity}
                             </span>
                           </div>
-                          <span className="rounded-full bg-white dark:bg-gray-850 px-2 py-0.5 text-[10px] font-bold text-gray-505 dark:text-gray-400 border border-gray-200 dark:border-gray-800 capitalize">
+                          <span className="rounded-full bg-white dark:bg-gray-800 px-2 py-0.5 text-[10px] font-bold text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-800 capitalize">
                             {incident.status}
                           </span>
                         </div>
 
                         {/* Timeline of updates */}
-                        <div className="relative border-l border-gray-250 dark:border-gray-800 pl-4 ml-1.5 space-y-4">
+                        <div className="relative border-l border-gray-200 dark:border-gray-800 pl-4 ml-1.5 space-y-4">
                           {[...incident.updates].reverse().map((update) => (
                             <div key={update.id} className="relative space-y-1">
-                              <span className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full border border-gray-350 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm" />
+                              <span className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full border border-gray-300 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm" />
                               <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">{update.message}</p>
-                              <span className="block text-[10px] text-gray-450 dark:text-gray-500 font-mono">
+                              <span className="block text-[10px] text-gray-400 dark:text-gray-500 font-mono">
                                 {new Date(update.createdAt).toLocaleString()}
                               </span>
                             </div>
