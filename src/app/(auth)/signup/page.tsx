@@ -24,8 +24,8 @@ export default function SignupPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight">Create Account</h1>
-        <p className="text-sm text-zinc-500">Sign up to manage StatusForge</p>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Create Account</h1>
+        <p className="text-sm text-gray-500">Sign up to manage StatusForge</p>
       </div>
 
       <form action={action} className="space-y-4">
@@ -36,48 +36,48 @@ export default function SignupPage() {
         )}
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="name">Name</label>
+          <label className="text-sm font-medium text-gray-700" htmlFor="name">Name</label>
           <input
             id="name"
             name="name"
             type="text"
             required
-            className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
             placeholder="John Doe"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="email">Email</label>
+          <label className="text-sm font-medium text-gray-700" htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
             type="email"
             required
-            className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
             placeholder="you@example.com"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="password">Password</label>
+          <label className="text-sm font-medium text-gray-700" htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
             type="password"
             required
-            className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
             placeholder="••••••••"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium" htmlFor="orgName">Organization Name</label>
+          <label className="text-sm font-medium text-gray-700" htmlFor="orgName">Organization Name</label>
           <input
             id="orgName"
             name="orgName"
             type="text"
-            className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
             placeholder="Acme Corp (only required for first owner account)"
           />
         </div>
@@ -85,15 +85,15 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-md bg-zinc-900 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:bg-zinc-300"
+          className="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:bg-gray-300 shadow-sm transition-colors"
         >
           {isPending ? "Signing up..." : "Sign Up"}
         </button>
       </form>
 
       <div className="text-center text-sm">
-        <span className="text-zinc-500">Already have an account? </span>
-        <Link href="/login" className="font-medium hover:underline text-zinc-900">
+        <span className="text-gray-500">Already have an account? </span>
+        <Link href="/login" className="font-semibold hover:underline text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1">
           Login
         </Link>
       </div>

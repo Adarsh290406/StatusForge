@@ -100,31 +100,31 @@ export default function IncidentsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 p-6">
+    <div className="min-h-screen bg-[#f9fafb] p-6 text-gray-900">
       <div className="mx-auto max-w-4xl space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-200 pb-5">
+        <div className="flex items-center justify-between border-b border-gray-200 pb-5">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Incidents Dashboard</h1>
-            <p className="text-sm text-zinc-500">Track and publish incident reports</p>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">Incidents Dashboard</h1>
+            <p className="text-sm text-gray-500">Track and publish incident reports</p>
           </div>
           <div className="flex gap-3">
             <button
               onClick={() => setShowModal(true)}
-              className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
             >
               New Incident
             </button>
             <Link
               href="/admin"
-              className="rounded-md border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+              className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
             >
               Services Dashboard
             </Link>
             <form action={logout}>
               <button
                 type="submit"
-                className="rounded-md border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+                className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
               >
                 Logout
               </button>
@@ -133,23 +133,23 @@ export default function IncidentsDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 border-b border-zinc-200">
+        <div className="flex gap-4 border-b border-gray-200">
           <button
             onClick={() => setActiveTab("open")}
-            className={`pb-2 text-sm font-semibold border-b-2 ${
+            className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
               activeTab === "open"
-                ? "border-zinc-900 text-zinc-900"
-                : "border-transparent text-zinc-400 hover:text-zinc-600"
+                ? "border-blue-600 text-blue-600"
+                : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
             Open Incidents
           </button>
           <button
             onClick={() => setActiveTab("resolved")}
-            className={`pb-2 text-sm font-semibold border-b-2 ${
+            className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
               activeTab === "resolved"
-                ? "border-zinc-900 text-zinc-900"
-                : "border-transparent text-zinc-400 hover:text-zinc-600"
+                ? "border-blue-600 text-blue-600"
+                : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
             Resolved Incidents
@@ -159,8 +159,8 @@ export default function IncidentsDashboard() {
         {/* State handlers */}
         {loading && (
           <div className="space-y-4">
-            <div className="h-16 w-full animate-pulse rounded-lg bg-zinc-200" />
-            <div className="h-16 w-full animate-pulse rounded-lg bg-zinc-200" />
+            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
+            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
           </div>
         )}
 
@@ -174,26 +174,26 @@ export default function IncidentsDashboard() {
         )}
 
         {!loading && !error && incidents.length === 0 && (
-          <div className="rounded-lg border border-dashed border-zinc-300 bg-white p-12 text-center">
-            <h3 className="text-sm font-semibold text-zinc-900">No incidents found</h3>
-            <p className="mt-1 text-sm text-zinc-500">Everything is running smoothly!</p>
+          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900">No incidents found</h3>
+            <p className="mt-1 text-sm text-gray-500">Everything is running smoothly!</p>
           </div>
         )}
 
         {/* Incidents List */}
         {!loading && !error && incidents.length > 0 && (
-          <div className="rounded-lg border border-zinc-200 bg-white shadow-sm">
-            <ul className="divide-y divide-zinc-200">
+          <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+            <ul className="divide-y divide-gray-150">
               {incidents.map((incident) => (
-                <li key={incident.id} className="p-4 hover:bg-zinc-50 flex items-center justify-between">
+                <li key={incident.id} className="p-4 hover:bg-gray-50 flex items-center justify-between transition-colors">
                   <div className="space-y-1">
                     <Link
                       href={`/admin/incidents/${incident.id}`}
-                      className="text-sm font-semibold text-zinc-900 hover:underline"
+                      className="text-sm font-bold text-gray-900 hover:text-blue-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5"
                     >
                       {incident.title}
                     </Link>
-                    <div className="flex gap-2 text-xs text-zinc-500">
+                    <div className="flex gap-2 text-xs text-gray-500">
                       <span>Posted {new Date(incident.createdAt).toLocaleDateString()}</span>
                       <span>•</span>
                       <span className="capitalize">{incident.status}</span>
@@ -217,11 +217,11 @@ export default function IncidentsDashboard() {
       {/* Create Incident Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl space-y-4">
-            <h2 className="text-lg font-bold text-zinc-900">Report New Incident</h2>
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4 border border-gray-200">
+            <h2 className="text-base font-bold text-gray-900">Report New Incident</h2>
             <form onSubmit={handleCreate} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-sm font-medium" htmlFor="inc-title">
+                <label className="text-xs font-semibold text-gray-700" htmlFor="inc-title">
                   Incident Title
                 </label>
                 <input
@@ -230,21 +230,21 @@ export default function IncidentsDashboard() {
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-500"
+                  className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
                   placeholder="e.g. Database connectivity issues"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-sm font-medium" htmlFor="inc-severity">
+                  <label className="text-xs font-semibold text-gray-700" htmlFor="inc-severity">
                     Severity
                   </label>
                   <select
                     id="inc-severity"
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value as any)}
-                    className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-500"
+                    className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
                   >
                     <option value="minor">Minor</option>
                     <option value="major">Major</option>
@@ -252,14 +252,14 @@ export default function IncidentsDashboard() {
                   </select>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-sm font-medium" htmlFor="inc-status">
+                  <label className="text-xs font-semibold text-gray-700" htmlFor="inc-status">
                     Initial Status
                   </label>
                   <select
                     id="inc-status"
                     value={status}
                     onChange={(e) => setStatus(e.target.value as any)}
-                    className="w-full rounded-md border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-500"
+                    className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
                   >
                     <option value="investigating">Investigating</option>
                     <option value="identified">Identified</option>
@@ -269,15 +269,15 @@ export default function IncidentsDashboard() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium">Affects Services</label>
-                <div className="max-h-36 overflow-y-auto border border-zinc-200 rounded-md p-2 space-y-1">
+                <label className="text-xs font-semibold text-gray-700">Affects Services</label>
+                <div className="max-h-36 overflow-y-auto border border-gray-200 rounded-md p-2 space-y-1 bg-gray-50/50">
                   {services.map((service) => (
-                    <label key={service.id} className="flex items-center gap-2 text-sm text-zinc-700 cursor-pointer">
+                    <label key={service.id} className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer hover:text-gray-900 transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedServiceIds.includes(service.id)}
                         onChange={() => handleServiceToggle(service.id)}
-                        className="rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900"
+                        className="rounded border-gray-200 text-blue-600 focus:ring-blue-600 focus-visible:ring-offset-2"
                       />
                       {service.name}
                     </label>
@@ -289,14 +289,14 @@ export default function IncidentsDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded-md border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+                  className="rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={selectedServiceIds.length === 0}
-                  className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:bg-zinc-300"
+                  className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 disabled:bg-gray-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 shadow-sm"
                 >
                   Report
                 </button>

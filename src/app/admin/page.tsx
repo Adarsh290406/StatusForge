@@ -140,7 +140,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#f9fafb] flex flex-col md:flex-row text-gray-900">
       {/* Dynamic Sidebar */}
       <aside className="w-full md:w-64 bg-zinc-900 text-zinc-300 p-6 flex flex-col justify-between shrink-0">
         <div className="space-y-8">
@@ -152,20 +152,20 @@ export default function AdminDashboard() {
           <nav className="space-y-1 text-sm font-semibold">
             <Link
               href="/admin"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg bg-zinc-800 text-white"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg bg-zinc-800 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               🖥️ Services Overview
             </Link>
             <Link
               href="/admin/incidents"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 hover:text-white transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               🚨 Incidents Logs
             </Link>
             <Link
               href="/status"
               target="_blank"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 hover:text-white transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               👁️ View Public Page
             </Link>
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
           <form action={logout}>
             <button
               type="submit"
-              className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm hover:bg-zinc-800 hover:text-white transition-colors font-medium"
+              className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm hover:bg-zinc-800 hover:text-white transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               ↩ Logout Account
             </button>
@@ -186,10 +186,10 @@ export default function AdminDashboard() {
 
       {/* Main Workspace */}
       <main className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-zinc-200 pb-5">
+        <div className="flex items-center justify-between border-b border-gray-200 pb-5">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Services Overview</h1>
-            <p className="text-xs text-zinc-500">Monitor and configure individual system services</p>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">Services Overview</h1>
+            <p className="text-xs text-gray-500">Monitor and configure individual system services</p>
           </div>
           <button
             onClick={() => {
@@ -198,14 +198,14 @@ export default function AdminDashboard() {
               setDescription("");
               setShowModal(true);
             }}
-            className="rounded-lg bg-zinc-900 px-4 py-2 text-xs font-bold text-white hover:bg-zinc-800 shadow-sm"
+            className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
           >
             + Add Service
           </button>
         </div>
 
         {/* Informative Walkthrough Tips for New Users */}
-        <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100 flex gap-3 text-xs text-blue-700 leading-relaxed shadow-sm">
+        <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-150 flex gap-3 text-xs text-blue-700 leading-relaxed shadow-sm">
           <span className="text-lg">💡</span>
           <div>
             <p className="font-bold text-blue-800 mb-0.5">Quick Tips</p>
@@ -218,8 +218,8 @@ export default function AdminDashboard() {
         {/* State handlers */}
         {loading && (
           <div className="space-y-3">
-            <div className="h-16 w-full animate-pulse rounded-lg bg-zinc-200" />
-            <div className="h-16 w-full animate-pulse rounded-lg bg-zinc-200" />
+            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
+            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
           </div>
         )}
 
@@ -233,9 +233,9 @@ export default function AdminDashboard() {
         )}
 
         {!loading && !error && services.length === 0 && (
-          <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center">
-            <h3 className="text-sm font-bold text-zinc-900">No services monitored yet</h3>
-            <p className="mt-1 text-xs text-zinc-500">Create your first service component to start tracking health.</p>
+          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900">No services monitored yet</h3>
+            <p className="mt-1 text-xs text-gray-500">Create your first service component to start tracking health.</p>
             <div className="mt-6">
               <button
                 onClick={() => {
@@ -244,7 +244,7 @@ export default function AdminDashboard() {
                   setDescription("");
                   setShowModal(true);
                 }}
-                className="inline-flex items-center rounded-lg bg-zinc-950 px-4 py-2 text-xs font-bold text-white hover:bg-zinc-800"
+                className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
               >
                 + Create Service
               </button>
@@ -254,16 +254,16 @@ export default function AdminDashboard() {
 
         {/* Services List Table */}
         {!loading && !error && services.length > 0 && (
-          <div className="rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-            <ul className="divide-y divide-zinc-200">
+          <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+            <ul className="divide-y divide-gray-150">
               {services.map((service, index) => (
-                <li key={service.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4 hover:bg-zinc-50/50">
+                <li key={service.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4 hover:bg-gray-50/50 transition-colors">
                   <div className="flex items-center gap-3">
                     <span className={`h-3 w-3 rounded-full ${getStatusColor(service.status)} shrink-0`} />
                     <div className="space-y-0.5">
-                      <h4 className="text-sm font-bold text-zinc-900">{service.name}</h4>
+                      <h4 className="text-sm font-bold text-gray-900">{service.name}</h4>
                       {service.description && (
-                        <p className="text-xs text-zinc-500 font-medium">{service.description}</p>
+                        <p className="text-xs text-gray-500 font-medium">{service.description}</p>
                       )}
                     </div>
                   </div>
@@ -273,7 +273,7 @@ export default function AdminDashboard() {
                     <select
                       value={service.status}
                       onChange={(e) => handleStatusChange(service.id, e.target.value)}
-                      className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 focus:outline-none"
+                      className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                     >
                       <option value="operational">Operational</option>
                       <option value="degraded">Degraded</option>
@@ -281,11 +281,11 @@ export default function AdminDashboard() {
                     </select>
 
                     {/* Sorting handles */}
-                    <div className="flex gap-1 border border-zinc-200 rounded-lg p-1 bg-zinc-50">
+                    <div className="flex gap-1 border border-gray-200 rounded-md p-1 bg-gray-50">
                       <button
                         onClick={() => handleMove(index, "up")}
                         disabled={index === 0}
-                        className="text-zinc-400 hover:text-zinc-700 disabled:opacity-30 px-1 text-xs"
+                        className="text-gray-400 hover:text-gray-700 disabled:opacity-30 px-1 text-xs"
                         title="Move Up"
                       >
                         ▲
@@ -293,7 +293,7 @@ export default function AdminDashboard() {
                       <button
                         onClick={() => handleMove(index, "down")}
                         disabled={index === services.length - 1}
-                        className="text-zinc-400 hover:text-zinc-700 disabled:opacity-30 px-1 text-xs"
+                        className="text-gray-400 hover:text-gray-700 disabled:opacity-30 px-1 text-xs"
                         title="Move Down"
                       >
                         ▼
@@ -309,13 +309,13 @@ export default function AdminDashboard() {
                           setDescription(service.description || "");
                           setShowModal(true);
                         }}
-                        className="rounded-lg bg-zinc-100 px-3 py-1.5 text-xs font-bold text-zinc-700 hover:bg-zinc-200"
+                        className="rounded-md bg-gray-100 px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-250 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(service.id)}
-                        className="rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100"
+                        className="rounded-md bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
                       >
                         Delete
                       </button>
@@ -331,13 +331,13 @@ export default function AdminDashboard() {
       {/* Service Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4">
-            <h2 className="text-base font-bold text-zinc-900">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4 border border-gray-200">
+            <h2 className="text-base font-bold text-gray-900">
               {editId ? "Edit Service details" : "Add New Service component"}
             </h2>
             <form onSubmit={handleCreateOrUpdate} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-zinc-700" htmlFor="modal-name">
+                <label className="text-xs font-semibold text-gray-700" htmlFor="modal-name">
                   Service Name
                 </label>
                 <input
@@ -346,19 +346,19 @@ export default function AdminDashboard() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-500"
+                  className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
                   placeholder="e.g. Website Front-End API"
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-zinc-700" htmlFor="modal-desc">
+                <label className="text-xs font-semibold text-gray-700" htmlFor="modal-desc">
                   Description (optional)
                 </label>
                 <textarea
                   id="modal-desc"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:outline-none focus:border-zinc-500"
+                  className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
                   placeholder="e.g. Handles marketing and landing requests"
                   rows={3}
                 />
@@ -367,13 +367,13 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-xs font-bold text-zinc-700 hover:bg-zinc-50"
+                  className="rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-zinc-900 px-4 py-2 text-xs font-bold text-white hover:bg-zinc-800"
+                  className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
                 >
                   {editId ? "Save Changes" : "Create Component"}
                 </button>
