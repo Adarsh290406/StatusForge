@@ -1,101 +1,106 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { signup } from "@/actions/auth";
 import Link from "next/link";
 
 export default function SignupPage() {
   const [state, action, isPending] = useActionState(signup, null);
-  const [isFirstUser, setIsFirstUser] = useState(false);
-
-  // Check if first user ever to determine whether we ask for organization name
-  useEffect(() => {
-    // Basic ping to health API or similar endpoint would work, or we can check via local fetch
-    // To keep it simple, we check if any users exist by checking a mini route
-    fetch("/api/auth/me")
-      .catch(() => {})
-      .finally(() => {
-        // We will default to showing organization field, but if they enter database info
-        // Server action handles checking users count correctly. Let's just always request it or check.
-        // To be safe, let's request it. If subsequent users join, the action silently ignores it.
-      });
-  }, []);
 
   return (
     <div className="space-y-6">
+      {/* Brand Header */}
       <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Create Account</h1>
-        <p className="text-sm text-gray-500">Sign up to manage StatusForge</p>
+        <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900 hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded">
+          StatusForge
+        </Link>
+        <p className="text-xs text-gray-500 font-medium">Create your owner account to start tracking</p>
       </div>
 
       <form action={action} className="space-y-4">
         {state?.error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-100">
+          <div className="rounded-md bg-red-50 p-3 text-xs text-red-600 border border-red-155">
             {state.error}
           </div>
         )}
 
         <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700" htmlFor="name">Name</label>
+          <label className="text-xs font-semibold text-gray-700" htmlFor="name">
+            Name
+          </label>
           <input
             id="name"
             name="name"
             type="text"
             required
-            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
+            className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900 shadow-sm"
             placeholder="John Doe"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700" htmlFor="email">Email</label>
+          <label className="text-xs font-semibold text-gray-700" htmlFor="email">
+            Email
+          </label>
           <input
             id="email"
             name="email"
             type="email"
             required
-            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
+            className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900 shadow-sm"
             placeholder="you@example.com"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700" htmlFor="password">Password</label>
+          <label className="text-xs font-semibold text-gray-700" htmlFor="password">
+            Password
+          </label>
           <input
             id="password"
             name="password"
             type="password"
             required
-            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
+            className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900 shadow-sm"
             placeholder="••••••••"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700" htmlFor="orgName">Organization Name</label>
+          <label className="text-xs font-semibold text-gray-700" htmlFor="orgName">
+            Organization Name
+          </label>
           <input
             id="orgName"
             name="orgName"
             type="text"
-            className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 bg-white text-gray-900"
-            placeholder="Acme Corp (only required for first owner account)"
+            className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900 shadow-sm"
+            placeholder="Acme Corp (only required for first owner)"
           />
         </div>
 
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:bg-gray-300 shadow-sm transition-colors"
+          className="w-full rounded bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:bg-gray-300 shadow-sm transition-colors cursor-pointer"
         >
-          {isPending ? "Signing up..." : "Sign Up"}
+          {isPending ? "Creating account..." : "Create account"}
         </button>
       </form>
 
-      <div className="text-center text-sm">
-        <span className="text-gray-500">Already have an account? </span>
-        <Link href="/login" className="font-semibold hover:underline text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1">
-          Login
-        </Link>
+      {/* Back navigation & Sign in redirections */}
+      <div className="space-y-4 pt-2 text-center text-xs">
+        <div>
+          <span className="text-gray-500">Already have an account? </span>
+          <Link href="/login" className="font-bold hover:underline text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5">
+            Log in
+          </Link>
+        </div>
+        <div className="pt-2 border-t border-gray-100">
+          <Link href="/" className="text-gray-400 font-semibold hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1">
+            ← Back to home
+          </Link>
+        </div>
       </div>
     </div>
   );

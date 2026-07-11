@@ -139,57 +139,51 @@ export default function AdminDashboard() {
     return "bg-red-500";
   };
 
-  return (
-    <div className="min-h-screen bg-[#f9fafb] flex flex-col md:flex-row text-gray-900">
-      {/* Dynamic Sidebar */}
-      <aside className="w-full md:w-64 bg-zinc-900 text-zinc-300 p-6 flex flex-col justify-between shrink-0">
-        <div className="space-y-8">
-          <div className="flex items-center gap-2 text-white">
-            <span className="text-xl">🛠️</span>
-            <span className="font-bold tracking-tight text-base">StatusForge Admin</span>
-          </div>
+  const getStatusBadgeClass = (status: string) => {
+    if (status === "operational") return "text-green-700 bg-green-50 border-green-200";
+    if (status === "degraded") return "text-yellow-700 bg-yellow-50 border-yellow-200";
+    return "text-red-700 bg-red-50 border-red-200";
+  };
 
-          <nav className="space-y-1 text-sm font-semibold">
-            <Link
-              href="/admin"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg bg-zinc-800 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-            >
-              🖥️ Services Overview
-            </Link>
+  return (
+    <div className="min-h-screen bg-[#f9fafb] text-gray-900 flex flex-col items-center">
+      {/* Container wrapper */}
+      <div className="w-full max-w-[1280px] px-6 py-8 space-y-8 flex-1 flex flex-col">
+        {/* Top Navbar */}
+        <header className="flex items-center justify-between pb-4 border-b border-gray-200">
+          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+            StatusForge
+          </Link>
+          <nav className="flex items-center gap-4">
             <Link
               href="/admin/incidents"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
-              🚨 Incidents Logs
+              Incidents
             </Link>
             <Link
               href="/status"
               target="_blank"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-zinc-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
-              👁️ View Public Page
+              View Public Status ↗
             </Link>
+            <form action={logout}>
+              <button
+                type="submit"
+                className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded cursor-pointer"
+              >
+                Logout
+              </button>
+            </form>
           </nav>
-        </div>
+        </header>
 
-        <div className="pt-6 border-t border-zinc-800">
-          <form action={logout}>
-            <button
-              type="submit"
-              className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm hover:bg-zinc-800 hover:text-white transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-            >
-              ↩ Logout Account
-            </button>
-          </form>
-        </div>
-      </aside>
-
-      {/* Main Workspace */}
-      <main className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-gray-200 pb-5">
+        {/* Section title & CTA header */}
+        <div className="flex items-center justify-between pb-4">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900">Services Overview</h1>
-            <p className="text-xs text-gray-500">Monitor and configure individual system services</p>
+            <h2 className="text-2xl font-bold text-gray-900">Services</h2>
+            <p className="text-xs text-gray-500">Configure and manage individual components</p>
           </div>
           <button
             onClick={() => {
@@ -198,90 +192,72 @@ export default function AdminDashboard() {
               setDescription("");
               setShowModal(true);
             }}
-            className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+            className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
           >
-            + Add Service
+            Add Service
           </button>
         </div>
 
-        {/* Informative Walkthrough Tips for New Users */}
-        <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-150 flex gap-3 text-xs text-blue-700 leading-relaxed shadow-sm">
-          <span className="text-lg">💡</span>
-          <div>
-            <p className="font-bold text-blue-800 mb-0.5">Quick Tips</p>
-            <p>
-              Services listed below represent core components. Use the dropdown status values to change status flags. Changes are pushed dynamically to the public status page using Server-Sent Events (SSE). Use the sorting arrows (▲/▼) to reorder priority.
-            </p>
-          </div>
-        </div>
-
-        {/* State handlers */}
+        {/* Loading skeleton wrapper */}
         {loading && (
-          <div className="space-y-3">
-            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
-            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="h-32 w-full animate-pulse rounded-xl bg-gray-200/60" />
+            <div className="h-32 w-full animate-pulse rounded-xl bg-gray-200/60" />
           </div>
         )}
 
+        {/* Error wrapper */}
         {error && (
-          <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-center space-y-2">
-            <p className="text-xs text-red-700 font-medium">{error}</p>
-            <button onClick={fetchServices} className="text-xs font-bold text-red-800 hover:underline">
+          <div className="rounded-xl bg-red-50 p-6 border border-red-200 text-center space-y-3">
+            <p className="text-sm text-red-700 font-medium">{error}</p>
+            <button
+              onClick={fetchServices}
+              className="rounded border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            >
               Retry
             </button>
           </div>
         )}
 
+        {/* Empty state component */}
         {!loading && !error && services.length === 0 && (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900">No services monitored yet</h3>
-            <p className="mt-1 text-xs text-gray-500">Create your first service component to start tracking health.</p>
-            <div className="mt-6">
-              <button
-                onClick={() => {
-                  setEditId(null);
-                  setName("");
-                  setDescription("");
-                  setShowModal(true);
-                }}
-                className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-              >
-                + Create Service
-              </button>
+          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+            <span className="text-4xl select-none">🖥️</span>
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-gray-900">No services yet</h3>
+              <p className="text-xs text-gray-500">Create your first service component to start tracking health.</p>
             </div>
+            <button
+              onClick={() => {
+                setEditId(null);
+                setName("");
+                setDescription("");
+                setShowModal(true);
+              }}
+              className="rounded bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+            >
+              Add Service
+            </button>
           </div>
         )}
 
-        {/* Services List Table */}
+        {/* Card-based Services Grid */}
         {!loading && !error && services.length > 0 && (
-          <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-            <ul className="divide-y divide-gray-150">
-              {services.map((service, index) => (
-                <li key={service.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4 hover:bg-gray-50/50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className={`h-3 w-3 rounded-full ${getStatusColor(service.status)} shrink-0`} />
-                    <div className="space-y-0.5">
-                      <h4 className="text-sm font-bold text-gray-900">{service.name}</h4>
-                      {service.description && (
-                        <p className="text-xs text-gray-500 font-medium">{service.description}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 self-end sm:self-auto">
-                    {/* Status Dropdown */}
-                    <select
-                      value={service.status}
-                      onChange={(e) => handleStatusChange(service.id, e.target.value)}
-                      className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-                    >
-                      <option value="operational">Operational</option>
-                      <option value="degraded">Degraded</option>
-                      <option value="down">Outage / Down</option>
-                    </select>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service, index) => (
+              <div
+                key={service.id}
+                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-6"
+              >
+                {/* Header details */}
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-base font-bold text-gray-900 leading-tight">
+                      {service.name}
+                    </h3>
 
                     {/* Sorting handles */}
-                    <div className="flex gap-1 border border-gray-200 rounded-md p-1 bg-gray-50">
+                    <div className="flex gap-1 border border-gray-200 rounded p-1 bg-gray-50 shrink-0">
                       <button
                         onClick={() => handleMove(index, "up")}
                         disabled={index === 0}
@@ -299,36 +275,63 @@ export default function AdminDashboard() {
                         ▼
                       </button>
                     </div>
-
-                    {/* Action buttons */}
-                    <div className="flex gap-1.5 ml-2">
-                      <button
-                        onClick={() => {
-                          setEditId(service.id);
-                          setName(service.name);
-                          setDescription(service.description || "");
-                          setShowModal(true);
-                        }}
-                        className="rounded-md bg-gray-100 px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-250 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(service.id)}
-                        className="rounded-md bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
-                      >
-                        Delete
-                      </button>
-                    </div>
                   </div>
-                </li>
-              ))}
-            </ul>
+
+                  {service.description && (
+                    <p className="text-xs text-gray-500 leading-relaxed font-medium">
+                      {service.description}
+                    </p>
+                  )}
+                </div>
+
+                {/* Footer Controls & Actions */}
+                <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
+                  {/* Status and Toggle */}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold border ${getStatusBadgeClass(service.status)}`}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${getStatusColor(service.status)}`} />
+                      <span className="capitalize">{service.status}</span>
+                    </div>
+
+                    <select
+                      value={service.status}
+                      onChange={(e) => handleStatusChange(service.id, e.target.value)}
+                      className="rounded border border-gray-200 bg-white px-2 py-1 text-xs font-semibold text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                    >
+                      <option value="operational">Operational</option>
+                      <option value="degraded">Degraded</option>
+                      <option value="down">Down</option>
+                    </select>
+                  </div>
+
+                  {/* Actions buttons list */}
+                  <div className="flex gap-2 justify-end">
+                    <button
+                      onClick={() => {
+                        setEditId(service.id);
+                        setName(service.name);
+                        setDescription(service.description || "");
+                        setShowModal(true);
+                      }}
+                      className="rounded border border-gray-200 bg-white px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(service.id)}
+                      className="rounded border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
-      </main>
+      </div>
 
-      {/* Service Modal */}
+      {/* Service Modal Overlay Form */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4 border border-gray-200">
@@ -346,8 +349,8 @@ export default function AdminDashboard() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
-                  placeholder="e.g. Website Front-End API"
+                  className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                  placeholder="e.g. Website API"
                 />
               </div>
               <div className="space-y-1">
@@ -358,8 +361,8 @@ export default function AdminDashboard() {
                   id="modal-desc"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
-                  placeholder="e.g. Handles marketing and landing requests"
+                  className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                  placeholder="e.g. Serves critical rest endpoints"
                   rows={3}
                 />
               </div>
@@ -367,13 +370,13 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                  className="rounded border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                  className="rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
                 >
                   {editId ? "Save Changes" : "Create Component"}
                 </button>

@@ -94,127 +94,186 @@ export default function IncidentsDashboard() {
   };
 
   const getSeverityBadge = (sev: string) => {
-    if (sev === "critical") return "bg-red-100 text-red-700 border-red-200";
-    if (sev === "major") return "bg-orange-100 text-orange-700 border-orange-200";
-    return "bg-zinc-100 text-zinc-700 border-zinc-200";
+    if (sev === "critical") return "bg-red-50 text-red-700 border-red-200";
+    if (sev === "major") return "bg-yellow-50 text-yellow-700 border-yellow-250";
+    return "bg-gray-100 text-gray-700 border-gray-250";
+  };
+
+  const getAffectedServiceNames = (serviceIds: string[]) => {
+    return services
+      .filter((s) => serviceIds.includes(s.id))
+      .map((s) => s.name)
+      .join(", ");
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] p-6 text-gray-900">
-      <div className="mx-auto max-w-4xl space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 pb-5">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900">Incidents Dashboard</h1>
-            <p className="text-sm text-gray-500">Track and publish incident reports</p>
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setShowModal(true)}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-            >
-              New Incident
-            </button>
+    <div className="min-h-screen bg-[#f9fafb] text-gray-900 flex flex-col items-center">
+      {/* Container wrapper */}
+      <div className="w-full max-w-[1280px] px-6 py-8 space-y-8 flex-1 flex flex-col">
+        {/* Top Navbar */}
+        <header className="flex items-center justify-between pb-4 border-b border-gray-200">
+          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+            StatusForge
+          </Link>
+          <nav className="flex items-center gap-4">
             <Link
               href="/admin"
-              className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
-              Services Dashboard
+              Services
+            </Link>
+            <Link
+              href="/status"
+              target="_blank"
+              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
+            >
+              View Public Status ↗
             </Link>
             <form action={logout}>
               <button
                 type="submit"
-                className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded cursor-pointer"
               >
                 Logout
               </button>
             </form>
-          </div>
+          </nav>
+        </header>
+
+        {/* Breadcrumb section */}
+        <div className="text-xs font-semibold text-gray-400 space-x-1.5">
+          <Link href="/admin" className="hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded">
+            Dashboard
+          </Link>
+          <span>&gt;</span>
+          <span className="text-gray-600">Incidents</span>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-4 border-b border-gray-200">
+        {/* Section title & CTA header */}
+        <div className="flex items-center justify-between pb-4">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Incidents</h2>
+            <p className="text-xs text-gray-500">Log and manage timeline updates during outages</p>
+          </div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+          >
+            Report Incident
+          </button>
+        </div>
+
+        {/* Tabs styled as pill switcher */}
+        <div className="flex gap-2 p-1 bg-gray-250/60 rounded-lg max-w-xs border border-gray-200">
           <button
             onClick={() => setActiveTab("open")}
-            className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
+            className={`flex-1 text-center py-1.5 px-3 rounded-md text-xs font-bold transition-all ${
               activeTab === "open"
-                ? "border-blue-600 text-blue-600"
-                : "border-transparent text-gray-400 hover:text-gray-600"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            Open Incidents
+            Open
           </button>
           <button
             onClick={() => setActiveTab("resolved")}
-            className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
+            className={`flex-1 text-center py-1.5 px-3 rounded-md text-xs font-bold transition-all ${
               activeTab === "resolved"
-                ? "border-blue-600 text-blue-600"
-                : "border-transparent text-gray-400 hover:text-gray-600"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            Resolved Incidents
+            Resolved
           </button>
         </div>
 
-        {/* State handlers */}
+        {/* Loading skeleton wrapper */}
         {loading && (
           <div className="space-y-4">
-            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
-            <div className="h-16 w-full animate-pulse rounded-lg bg-gray-200" />
+            <div className="h-24 w-full animate-pulse rounded-xl bg-gray-200/60" />
+            <div className="h-24 w-full animate-pulse rounded-xl bg-gray-200/60" />
           </div>
         )}
 
+        {/* Error wrapper */}
         {error && (
-          <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-center space-y-2">
+          <div className="rounded-xl bg-red-50 p-6 border border-red-200 text-center space-y-3">
             <p className="text-sm text-red-700 font-medium">{error}</p>
-            <button onClick={fetchData} className="text-sm font-semibold text-red-800 hover:underline">
+            <button
+              onClick={fetchData}
+              className="rounded border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            >
               Retry
             </button>
           </div>
         )}
 
+        {/* Empty state component */}
         {!loading && !error && incidents.length === 0 && (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900">No incidents found</h3>
-            <p className="mt-1 text-sm text-gray-500">Everything is running smoothly!</p>
+          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+            <span className="text-4xl select-none">🚨</span>
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-gray-900">
+                {activeTab === "open" ? "No open incidents" : "No resolved incidents history"}
+              </h3>
+              <p className="text-xs text-gray-500">
+                {activeTab === "open" ? "Everything is running smoothly." : "Resolved logs appear here."}
+              </p>
+            </div>
+            {activeTab === "open" && (
+              <button
+                onClick={() => setShowModal(true)}
+                className="rounded bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+              >
+                Report Incident
+              </button>
+            )}
           </div>
         )}
 
-        {/* Incidents List */}
+        {/* Incidents Card List */}
         {!loading && !error && incidents.length > 0 && (
-          <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-            <ul className="divide-y divide-gray-150">
-              {incidents.map((incident) => (
-                <li key={incident.id} className="p-4 hover:bg-gray-50 flex items-center justify-between transition-colors">
-                  <div className="space-y-1">
+          <div className="grid gap-4 md:grid-cols-2">
+            {incidents.map((incident) => (
+              <div
+                key={incident.id}
+                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-4"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between gap-4">
                     <Link
                       href={`/admin/incidents/${incident.id}`}
-                      className="text-sm font-bold text-gray-900 hover:text-blue-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5"
+                      className="text-base font-bold text-gray-900 hover:text-blue-600 hover:underline leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5"
                     >
                       {incident.title}
                     </Link>
-                    <div className="flex gap-2 text-xs text-gray-500">
-                      <span>Posted {new Date(incident.createdAt).toLocaleDateString()}</span>
-                      <span>•</span>
-                      <span className="capitalize">{incident.status}</span>
-                    </div>
+                    <span
+                      className={`shrink-0 rounded px-2.5 py-0.5 text-[10px] font-bold uppercase border ${getSeverityBadge(
+                        incident.severity
+                      )}`}
+                    >
+                      {incident.severity}
+                    </span>
                   </div>
+                  <div className="text-xs text-gray-500 font-medium">
+                    <span className="font-semibold text-gray-700">Services:</span>{" "}
+                    {getAffectedServiceNames(incident.serviceIds) || "None"}
+                  </div>
+                </div>
 
-                  <span
-                    className={`rounded-md border px-2.5 py-0.5 text-xs font-semibold uppercase ${getSeverityBadge(
-                      incident.severity
-                    )}`}
-                  >
-                    {incident.severity}
+                <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-400">
+                  <span>Logged {new Date(incident.createdAt).toLocaleDateString()}</span>
+                  <span className="capitalize text-gray-500 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full text-[10px] font-bold">
+                    {incident.status}
                   </span>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
 
-      {/* Create Incident Modal */}
+      {/* Report Incident Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4 border border-gray-200">
@@ -231,7 +290,7 @@ export default function IncidentsDashboard() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
-                  placeholder="e.g. Database connectivity issues"
+                  placeholder="e.g. Server response latency spike"
                 />
               </div>
 
