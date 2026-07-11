@@ -120,6 +120,12 @@ export default function LandingPage() {
                 View Status
               </Link>
               <Link
+                href="/login"
+                className="rounded-md px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
+              >
+                Login
+              </Link>
+              <Link
                 href="/signup"
                 className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
               >

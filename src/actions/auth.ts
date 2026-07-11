@@ -125,5 +125,5 @@ export async function signup(state: AuthState, formData: FormData): Promise<Auth
 export async function logout() {
   const session = await getSession();
   session.destroy();
-  redirect("/login");
+  redirect("/");
 }

@@ -134,9 +134,15 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Nav Header */}
         <div className="flex items-center justify-between border-b border-zinc-200 pb-4">
-          <Link href="/admin/incidents" className="text-sm font-semibold text-zinc-900 hover:underline">
-            ← Back to Incidents
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/admin/incidents" className="text-sm font-semibold text-zinc-900 hover:underline">
+              ← Back to Incidents
+            </Link>
+            <span className="text-zinc-300">|</span>
+            <Link href="/admin" className="text-sm font-semibold text-zinc-500 hover:text-zinc-900 hover:underline">
+              Dashboard
+            </Link>
+          </div>
           {incident.status !== "resolved" && (
             <button
               onClick={() => {
