@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { logout } from "@/actions/auth";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Service = {
   id: string;
@@ -140,50 +141,53 @@ export default function AdminDashboard() {
   };
 
   const getStatusBadgeClass = (status: string) => {
-    if (status === "operational") return "text-green-700 bg-green-50 border-green-200";
-    if (status === "degraded") return "text-yellow-700 bg-yellow-50 border-yellow-200";
-    return "text-red-700 bg-red-50 border-red-200";
+    if (status === "operational") return "text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900/50";
+    if (status === "degraded") return "text-yellow-700 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-900/50";
+    return "text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900/50";
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] text-gray-900 flex flex-col items-center">
+    <div className="min-h-screen bg-[#f9fafb] dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col items-center transition-colors duration-150">
       {/* Container wrapper */}
       <div className="w-full max-w-[1280px] px-6 py-8 space-y-8 flex-1 flex flex-col">
         {/* Top Navbar */}
-        <header className="flex items-center justify-between pb-4 border-b border-gray-200">
-          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+        <header className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800">
+          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             StatusForge
           </Link>
           <nav className="flex items-center gap-4">
             <Link
               href="/admin/incidents"
-              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
               Incidents
             </Link>
             <Link
               href="/status"
               target="_blank"
-              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
               View Public Status ↗
             </Link>
             <form action={logout}>
               <button
                 type="submit"
-                className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded cursor-pointer"
+                className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded cursor-pointer"
               >
                 Logout
               </button>
             </form>
+            <div className="pl-1 border-l border-gray-200 dark:border-gray-800">
+              <ThemeToggle />
+            </div>
           </nav>
         </header>
 
         {/* Section title & CTA header */}
         <div className="flex items-center justify-between pb-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Services</h2>
-            <p className="text-xs text-gray-500">Configure and manage individual components</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Services</h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Configure and manage individual components</p>
           </div>
           <button
             onClick={() => {
@@ -200,19 +204,19 @@ export default function AdminDashboard() {
 
         {/* Loading skeleton wrapper */}
         {loading && (
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="h-32 w-full animate-pulse rounded-xl bg-gray-200/60" />
-            <div className="h-32 w-full animate-pulse rounded-xl bg-gray-200/60" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="h-32 w-full animate-pulse rounded-xl bg-gray-200/60 dark:bg-gray-800/60" />
+            <div className="h-32 w-full animate-pulse rounded-xl bg-gray-200/60 dark:bg-gray-800/60" />
           </div>
         )}
 
         {/* Error wrapper */}
         {error && (
-          <div className="rounded-xl bg-red-50 p-6 border border-red-200 text-center space-y-3">
-            <p className="text-sm text-red-700 font-medium">{error}</p>
+          <div className="rounded-xl bg-red-50 dark:bg-red-950/20 p-6 border border-red-200 dark:border-red-900/40 text-center space-y-3">
+            <p className="text-sm text-red-700 dark:text-red-450 font-medium">{error}</p>
             <button
               onClick={fetchServices}
-              className="rounded border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               Retry
             </button>
@@ -221,11 +225,11 @@ export default function AdminDashboard() {
 
         {/* Empty state component */}
         {!loading && !error && services.length === 0 && (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+          <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
             <span className="text-4xl select-none">🖥️</span>
             <div className="space-y-1">
-              <h3 className="text-sm font-bold text-gray-900">No services yet</h3>
-              <p className="text-xs text-gray-500">Create your first service component to start tracking health.</p>
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white">No services yet</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Create your first service component to start tracking health.</p>
             </div>
             <button
               onClick={() => {
@@ -247,21 +251,21 @@ export default function AdminDashboard() {
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-6"
+                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm flex flex-col justify-between space-y-6"
               >
                 {/* Header details */}
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-base font-bold text-gray-900 leading-tight">
+                    <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight">
                       {service.name}
                     </h3>
 
                     {/* Sorting handles */}
-                    <div className="flex gap-1 border border-gray-200 rounded p-1 bg-gray-50 shrink-0">
+                    <div className="flex gap-1 border border-gray-200 dark:border-gray-800 rounded p-1 bg-gray-50 dark:bg-gray-900 shrink-0">
                       <button
                         onClick={() => handleMove(index, "up")}
                         disabled={index === 0}
-                        className="text-gray-400 hover:text-gray-700 disabled:opacity-30 px-1 text-xs"
+                        className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 disabled:opacity-30 px-1 text-xs"
                         title="Move Up"
                       >
                         ▲
@@ -269,7 +273,7 @@ export default function AdminDashboard() {
                       <button
                         onClick={() => handleMove(index, "down")}
                         disabled={index === services.length - 1}
-                        className="text-gray-400 hover:text-gray-700 disabled:opacity-30 px-1 text-xs"
+                        className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 disabled:opacity-30 px-1 text-xs"
                         title="Move Down"
                       >
                         ▼
@@ -278,14 +282,14 @@ export default function AdminDashboard() {
                   </div>
 
                   {service.description && (
-                    <p className="text-xs text-gray-500 leading-relaxed font-medium">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
                       {service.description}
                     </p>
                   )}
                 </div>
 
                 {/* Footer Controls & Actions */}
-                <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
+                <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-4">
                   {/* Status and Toggle */}
                   <div className="flex items-center justify-between gap-4">
                     <div className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold border ${getStatusBadgeClass(service.status)}`}>
@@ -296,7 +300,7 @@ export default function AdminDashboard() {
                     <select
                       value={service.status}
                       onChange={(e) => handleStatusChange(service.id, e.target.value)}
-                      className="rounded border border-gray-200 bg-white px-2 py-1 text-xs font-semibold text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 px-2 py-1 text-xs font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                     >
                       <option value="operational">Operational</option>
                       <option value="degraded">Degraded</option>
@@ -313,13 +317,13 @@ export default function AdminDashboard() {
                         setDescription(service.description || "");
                         setShowModal(true);
                       }}
-                      className="rounded border border-gray-200 bg-white px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                      className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(service.id)}
-                      className="rounded border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                      className="rounded border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20 px-3 py-1.5 text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
                     >
                       Delete
                     </button>
@@ -334,13 +338,13 @@ export default function AdminDashboard() {
       {/* Service Modal Overlay Form */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4 border border-gray-200">
-            <h2 className="text-base font-bold text-gray-900">
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-850 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-800">
+            <h2 className="text-base font-bold text-gray-900 dark:text-white">
               {editId ? "Edit Service details" : "Add New Service component"}
             </h2>
             <form onSubmit={handleCreateOrUpdate} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-gray-700" htmlFor="modal-name">
+                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300" htmlFor="modal-name">
                   Service Name
                 </label>
                 <input
@@ -349,19 +353,19 @@ export default function AdminDashboard() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                  className="w-full rounded border border-gray-200 dark:border-gray-850 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   placeholder="e.g. Website API"
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-gray-700" htmlFor="modal-desc">
+                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300" htmlFor="modal-desc">
                   Description (optional)
                 </label>
                 <textarea
                   id="modal-desc"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full rounded border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                  className="w-full rounded border border-gray-200 dark:border-gray-850 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   placeholder="e.g. Serves critical rest endpoints"
                   rows={3}
                 />
@@ -370,7 +374,7 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                  className="rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>

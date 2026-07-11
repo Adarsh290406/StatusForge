@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { logout } from "@/actions/auth";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Incident = {
   id: string;
@@ -94,9 +95,9 @@ export default function IncidentsDashboard() {
   };
 
   const getSeverityBadge = (sev: string) => {
-    if (sev === "critical") return "bg-red-50 text-red-700 border-red-200";
-    if (sev === "major") return "bg-yellow-50 text-yellow-700 border-yellow-250";
-    return "bg-gray-100 text-gray-700 border-gray-250";
+    if (sev === "critical") return "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50";
+    if (sev === "major") return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-900/50";
+    return "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-250 dark:border-gray-700";
   };
 
   const getAffectedServiceNames = (serviceIds: string[]) => {
@@ -107,36 +108,39 @@ export default function IncidentsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] text-gray-900 flex flex-col items-center">
+    <div className="min-h-screen bg-[#f9fafb] dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col items-center transition-colors duration-150">
       {/* Container wrapper */}
       <div className="w-full max-w-[1280px] px-6 py-8 space-y-8 flex-1 flex flex-col">
         {/* Top Navbar */}
-        <header className="flex items-center justify-between pb-4 border-b border-gray-200">
-          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+        <header className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800">
+          <Link href="/" className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             StatusForge
           </Link>
           <nav className="flex items-center gap-4">
             <Link
               href="/admin"
-              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
               Services
             </Link>
             <Link
               href="/status"
               target="_blank"
-              className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded"
             >
               View Public Status ↗
             </Link>
             <form action={logout}>
               <button
                 type="submit"
-                className="text-sm font-semibold text-gray-600 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded cursor-pointer"
+                className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded cursor-pointer"
               >
                 Logout
               </button>
             </form>
+            <div className="pl-1 border-l border-gray-200 dark:border-gray-800">
+              <ThemeToggle />
+            </div>
           </nav>
         </header>
 
@@ -146,14 +150,14 @@ export default function IncidentsDashboard() {
             Dashboard
           </Link>
           <span>&gt;</span>
-          <span className="text-gray-600">Incidents</span>
+          <span className="text-gray-600 dark:text-gray-400">Incidents</span>
         </div>
 
         {/* Section title & CTA header */}
         <div className="flex items-center justify-between pb-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Incidents</h2>
-            <p className="text-xs text-gray-500">Log and manage timeline updates during outages</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Incidents</h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Log and manage timeline updates during outages</p>
           </div>
           <button
             onClick={() => setShowModal(true)}
@@ -164,13 +168,13 @@ export default function IncidentsDashboard() {
         </div>
 
         {/* Tabs styled as pill switcher */}
-        <div className="flex gap-2 p-1 bg-gray-250/60 rounded-lg max-w-xs border border-gray-200">
+        <div className="flex gap-2 p-1 bg-gray-250/60 dark:bg-gray-800 rounded-lg max-w-xs border border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setActiveTab("open")}
             className={`flex-1 text-center py-1.5 px-3 rounded-md text-xs font-bold transition-all ${
               activeTab === "open"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-250"
             }`}
           >
             Open
@@ -179,8 +183,8 @@ export default function IncidentsDashboard() {
             onClick={() => setActiveTab("resolved")}
             className={`flex-1 text-center py-1.5 px-3 rounded-md text-xs font-bold transition-all ${
               activeTab === "resolved"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-250"
             }`}
           >
             Resolved
@@ -189,19 +193,19 @@ export default function IncidentsDashboard() {
 
         {/* Loading skeleton wrapper */}
         {loading && (
-          <div className="space-y-4">
-            <div className="h-24 w-full animate-pulse rounded-xl bg-gray-200/60" />
-            <div className="h-24 w-full animate-pulse rounded-xl bg-gray-200/60" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="h-24 w-full animate-pulse rounded-xl bg-gray-200/60 dark:bg-gray-800/60" />
+            <div className="h-24 w-full animate-pulse rounded-xl bg-gray-200/60 dark:bg-gray-800/60" />
           </div>
         )}
 
         {/* Error wrapper */}
         {error && (
-          <div className="rounded-xl bg-red-50 p-6 border border-red-200 text-center space-y-3">
-            <p className="text-sm text-red-700 font-medium">{error}</p>
+          <div className="rounded-xl bg-red-50 dark:bg-red-950/20 p-6 border border-red-200 dark:border-red-900/40 text-center space-y-3">
+            <p className="text-sm text-red-700 dark:text-red-450 font-medium">{error}</p>
             <button
               onClick={fetchData}
-              className="rounded border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               Retry
             </button>
@@ -210,13 +214,13 @@ export default function IncidentsDashboard() {
 
         {/* Empty state component */}
         {!loading && !error && incidents.length === 0 && (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-white p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
+          <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-12 text-center shadow-sm flex flex-col items-center justify-center space-y-4">
             <span className="text-4xl select-none">🚨</span>
             <div className="space-y-1">
-              <h3 className="text-sm font-bold text-gray-900">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white">
                 {activeTab === "open" ? "No open incidents" : "No resolved incidents history"}
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {activeTab === "open" ? "Everything is running smoothly." : "Resolved logs appear here."}
               </p>
             </div>
@@ -237,13 +241,13 @@ export default function IncidentsDashboard() {
             {incidents.map((incident) => (
               <div
                 key={incident.id}
-                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-4"
+                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-4">
                     <Link
                       href={`/admin/incidents/${incident.id}`}
-                      className="text-base font-bold text-gray-900 hover:text-blue-600 hover:underline leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5"
+                      className="text-base font-bold text-gray-900 dark:text-white hover:text-blue-600 hover:underline leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5"
                     >
                       {incident.title}
                     </Link>
@@ -255,15 +259,15 @@ export default function IncidentsDashboard() {
                       {incident.severity}
                     </span>
                   </div>
-                  <div className="text-xs text-gray-500 font-medium">
-                    <span className="font-semibold text-gray-700">Services:</span>{" "}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">Services:</span>{" "}
                     {getAffectedServiceNames(incident.serviceIds) || "None"}
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-400">
+                <div className="pt-3 border-t border-gray-100 dark:border-gray-850 flex items-center justify-between text-xs font-semibold text-gray-400">
                   <span>Logged {new Date(incident.createdAt).toLocaleDateString()}</span>
-                  <span className="capitalize text-gray-500 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full text-[10px] font-bold">
+                  <span className="capitalize text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-2 py-0.5 rounded-full text-[10px] font-bold">
                     {incident.status}
                   </span>
                 </div>
@@ -276,11 +280,11 @@ export default function IncidentsDashboard() {
       {/* Report Incident Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4 border border-gray-200">
-            <h2 className="text-base font-bold text-gray-900">Report New Incident</h2>
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-gray-850 p-6 shadow-xl space-y-4 border border-gray-200 dark:border-gray-805">
+            <h2 className="text-base font-bold text-gray-900 dark:text-white">Report New Incident</h2>
             <form onSubmit={handleCreate} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-gray-700" htmlFor="inc-title">
+                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300" htmlFor="inc-title">
                   Incident Title
                 </label>
                 <input
@@ -289,21 +293,21 @@ export default function IncidentsDashboard() {
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                  className="w-full rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   placeholder="e.g. Server response latency spike"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-gray-700" htmlFor="inc-severity">
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300" htmlFor="inc-severity">
                     Severity
                   </label>
                   <select
                     id="inc-severity"
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value as any)}
-                    className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                    className="w-full rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   >
                     <option value="minor">Minor</option>
                     <option value="major">Major</option>
@@ -311,14 +315,14 @@ export default function IncidentsDashboard() {
                   </select>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-gray-700" htmlFor="inc-status">
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300" htmlFor="inc-status">
                     Initial Status
                   </label>
                   <select
                     id="inc-status"
                     value={status}
                     onChange={(e) => setStatus(e.target.value as any)}
-                    className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white text-gray-900"
+                    className="w-full rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   >
                     <option value="investigating">Investigating</option>
                     <option value="identified">Identified</option>
@@ -328,15 +332,15 @@ export default function IncidentsDashboard() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-gray-700">Affects Services</label>
-                <div className="max-h-36 overflow-y-auto border border-gray-200 rounded-md p-2 space-y-1 bg-gray-50/50">
+                <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">Affects Services</label>
+                <div className="max-h-36 overflow-y-auto border border-gray-200 dark:border-gray-750 rounded-md p-2 space-y-1 bg-gray-50/50 dark:bg-gray-900/30">
                   {services.map((service) => (
-                    <label key={service.id} className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer hover:text-gray-900 transition-colors">
+                    <label key={service.id} className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-white transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedServiceIds.includes(service.id)}
                         onChange={() => handleServiceToggle(service.id)}
-                        className="rounded border-gray-200 text-blue-600 focus:ring-blue-600 focus-visible:ring-offset-2"
+                        className="rounded border-gray-200 dark:border-gray-800 text-blue-600 focus:ring-blue-600 focus-visible:ring-offset-2"
                       />
                       {service.name}
                     </label>
@@ -348,14 +352,14 @@ export default function IncidentsDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                  className="rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 px-4 py-2 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={selectedServiceIds.length === 0}
-                  className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 disabled:bg-gray-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 shadow-sm"
+                  className="rounded-md bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 shadow-sm"
                 >
                   Report
                 </button>

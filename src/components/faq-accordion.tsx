@@ -25,25 +25,25 @@ export function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white shadow-sm">
+    <div className="divide-y divide-gray-200 dark:divide-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 shadow-sm">
       {faqs.map((faq, i) => (
         <div key={i}>
           <button
             onClick={() => setOpen(open === i ? null : i)}
-            className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-semibold text-gray-900 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
+            className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
             aria-expanded={open === i}
           >
             <span>{faq.q}</span>
             <span
               aria-hidden
-              className={`ml-4 shrink-0 text-gray-400 transition-transform duration-200 ${open === i ? "rotate-45" : ""}`}
+              className={`ml-4 shrink-0 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${open === i ? "rotate-45" : ""}`}
             >
               +
             </span>
           </button>
 
           {open === i && (
-            <p className="px-6 pb-5 text-sm leading-relaxed text-gray-600">
+            <p className="px-6 pb-5 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
               {faq.a}
             </p>
           )}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { FaqAccordion } from "@/components/faq-accordion";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 /* ─── Page-level SEO ─────────────────────────────────── */
 export const metadata: Metadata = {
@@ -67,7 +68,7 @@ const faqJsonLd = {
 /* ─── Tiny shared primitives ─────────────────────────── */
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+    <span className="inline-flex items-center rounded-full border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
       {children}
     </span>
   );
@@ -83,13 +84,13 @@ function FeatureCard({
   body: string;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm flex flex-col gap-4">
-      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold text-blue-700">
+    <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 p-6 shadow-sm flex flex-col gap-4">
+      <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center text-sm font-bold text-blue-700 dark:text-blue-300">
         {letter}
       </div>
       <div>
-        <h3 className="text-base font-bold text-gray-900">{title}</h3>
-        <p className="mt-1 text-sm leading-relaxed text-gray-500">{body}</p>
+        <h3 className="text-base font-bold text-gray-900 dark:text-white">{title}</h3>
+        <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">{body}</p>
       </div>
     </div>
   );
@@ -105,23 +106,23 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <div className="min-h-screen bg-[#f9fafb] text-gray-900">
+      <div className="min-h-screen bg-[#f9fafb] dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-150">
         {/* ── 1. NAV ────────────────────────────────────── */}
-        <header className="sticky top-0 z-40 border-b border-gray-200/80 bg-white/70 backdrop-blur-md">
+        <header className="sticky top-0 z-40 border-b border-gray-200/80 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <Link href="/" className="text-xl font-bold tracking-tight text-gray-900">
+            <Link href="/" className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
               StatusForge
             </Link>
             <nav className="flex items-center gap-3">
               <Link
                 href="/status"
-                className="rounded-md px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
+                className="rounded-md px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
               >
                 View Status
               </Link>
               <Link
                 href="/login"
-                className="rounded-md px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
+                className="rounded-md px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
               >
                 Login
               </Link>
@@ -131,6 +132,9 @@ export default function LandingPage() {
               >
                 Get Started
               </Link>
+              <div className="pl-1 border-l border-gray-200 dark:border-gray-800">
+                <ThemeToggle />
+              </div>
             </nav>
           </div>
         </header>
@@ -143,12 +147,12 @@ export default function LandingPage() {
               <div className="flex flex-col gap-6">
                 <Badge>✦ Free &amp; Open‑Source under MIT</Badge>
 
-                <h1 className="text-4xl font-black leading-tight tracking-tight text-gray-900 sm:text-5xl">
+                <h1 className="text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white sm:text-5xl">
                   A self‑hosted status page &amp; incident tracker{" "}
-                  <span className="text-blue-600">for teams.</span>
+                  <span className="text-blue-600 dark:text-blue-400">for teams.</span>
                 </h1>
 
-                <p className="text-base leading-relaxed text-gray-600">
+                <p className="text-base leading-relaxed text-gray-600 dark:text-gray-400">
                   Keep your users informed with real‑time system status and
                   incident timelines. No subscriptions, just your own app.
                 </p>
@@ -162,14 +166,14 @@ export default function LandingPage() {
                   </Link>
                   <Link
                     href="/signup"
-                    className="rounded-md border border-gray-300 bg-white px-6 py-3 text-sm font-bold text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
+                    className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 px-6 py-3 text-sm font-bold text-gray-700 dark:text-gray-350 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 transition-colors"
                   >
                     Deploy Your Own →
                   </Link>
                 </div>
 
                 {/* Live status pill */}
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                   <span className="relative flex h-2.5 w-2.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
@@ -193,13 +197,13 @@ export default function LandingPage() {
           </section>
 
           {/* ── 3. HOW IT WORKS ───────────────────────────── */}
-          <section className="border-y border-gray-200 bg-white py-20">
+          <section className="border-y border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 py-20">
             <div className="mx-auto max-w-6xl px-6">
               <div className="mb-12 text-center">
-                <h2 className="text-3xl font-black tracking-tight text-gray-900">
+                <h2 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
                   How It Works
                 </h2>
-                <p className="mt-3 text-sm text-gray-500">Up and running in minutes.</p>
+                <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">Up and running in minutes.</p>
               </div>
 
               <div className="grid gap-8 sm:grid-cols-3">
@@ -221,11 +225,11 @@ export default function LandingPage() {
                   },
                 ].map((step) => (
                   <div key={step.n} className="flex flex-col gap-3">
-                    <span className="text-5xl font-black text-blue-100 leading-none select-none">
+                    <span className="text-5xl font-black text-blue-100 dark:text-gray-800 leading-none select-none">
                       {step.n}
                     </span>
-                    <h3 className="text-lg font-bold text-gray-900">{step.title}</h3>
-                    <p className="text-sm leading-relaxed text-gray-500">{step.desc}</p>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">{step.title}</h3>
+                    <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400">{step.desc}</p>
                   </div>
                 ))}
               </div>
@@ -236,10 +240,10 @@ export default function LandingPage() {
           <section className="py-20">
             <div className="mx-auto max-w-6xl px-6">
               <div className="mb-12 text-center">
-                <h2 className="text-3xl font-black tracking-tight text-gray-900">
+                <h2 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
                   Key Features
                 </h2>
-                <p className="mt-3 text-sm text-gray-500">
+                <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
                   Everything you need, nothing you don't.
                 </p>
               </div>
@@ -270,10 +274,10 @@ export default function LandingPage() {
           </section>
 
           {/* ── 5. FAQ ────────────────────────────────────── */}
-          <section className="border-t border-gray-200 bg-white py-20">
+          <section className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-850 py-20">
             <div className="mx-auto max-w-3xl px-6">
               <div className="mb-12 text-center">
-                <h2 className="text-3xl font-black tracking-tight text-gray-900">
+                <h2 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
                   Frequently Asked Questions
                 </h2>
               </div>
@@ -282,12 +286,12 @@ export default function LandingPage() {
           </section>
 
           {/* ── 6. CTA FOOTER ─────────────────────────────── */}
-          <section className="border-t border-gray-200 py-20">
+          <section className="border-t border-gray-200 dark:border-gray-800 py-20">
             <div className="mx-auto max-w-3xl px-6 text-center space-y-6">
-              <h2 className="text-3xl font-black tracking-tight text-gray-900">
+              <h2 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
                 Ready to own your status communication?
               </h2>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 Deploy to Vercel in under 5 minutes. Free forever.
               </p>
               <Link
@@ -302,24 +306,24 @@ export default function LandingPage() {
                   href="https://github.com/Adarsh290406/StatusForge"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gray-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
+                  className="hover:text-gray-700 dark:hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
                 >
                   GitHub Repo
                 </a>
-                <Link href="/status" className="hover:text-gray-700 hover:underline">
+                <Link href="/status" className="hover:text-gray-700 dark:hover:text-white hover:underline">
                   Status Page Demo
                 </Link>
                 <a
                   href="https://github.com/Adarsh290406/StatusForge/blob/main/LICENSE"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gray-700 hover:underline"
+                  className="hover:text-gray-700 dark:hover:text-white hover:underline"
                 >
                   MIT License
                 </a>
               </div>
 
-              <p className="pt-6 text-xs text-gray-300">
+              <p className="pt-6 text-xs text-gray-300 dark:text-gray-500">
                 &copy; {new Date().getFullYear()} StatusForge. Built with Next.js &amp; Drizzle.
               </p>
             </div>
