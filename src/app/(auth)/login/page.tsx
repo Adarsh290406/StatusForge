@@ -65,6 +65,11 @@ export default function LoginPage() {
       {/* Back navigation & Signup redirections */}
       <div className="space-y-4 pt-2 text-center text-xs">
         <div>
+          <Link href="/forgot-password" className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:underline font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1">
+            Forgot password?
+          </Link>
+        </div>
+        <div>
           <span className="text-gray-500 dark:text-gray-400">Don't have an account? </span>
           <Link href="/signup" className="font-bold hover:underline text-blue-600 dark:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-0.5">
             Sign up

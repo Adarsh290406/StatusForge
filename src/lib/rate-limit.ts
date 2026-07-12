@@ -31,3 +31,32 @@ export function checkRateLimit(email: string): { allowed: boolean; remaining: nu
 
   return { allowed: true, remaining: limit - record.count };
 }
+
+export function checkCustomRateLimit(
+  key: string,
+  limit: number = 3,
+  windowMs: number = 15 * 60 * 1000
+): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const record = limitMap.get(key);
+
+  if (!record) {
+    limitMap.set(key, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, remaining: limit - 1 };
+  }
+
+  if (now > record.resetAt) {
+    limitMap.set(key, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, remaining: limit - 1 };
+  }
+
+  if (record.count >= limit) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  record.count += 1;
+  limitMap.set(key, record);
+
+  return { allowed: true, remaining: limit - record.count };
+}
+

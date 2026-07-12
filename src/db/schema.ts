@@ -107,6 +107,17 @@ export const incidentUpdates = pgTable("incident_updates", {
     .references(() => users.id),
 });
 
+export const passwordResetTokens = pgTable("password_reset_tokens", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  used: boolean("used").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 // ─── Relations ───────────────────────────────────────────────────────────────
 
 export const orgsRelations = relations(orgs, ({ many }) => ({
@@ -118,7 +129,18 @@ export const orgsRelations = relations(orgs, ({ many }) => ({
 export const usersRelations = relations(users, ({ one, many }) => ({
   org: one(orgs, { fields: [users.orgId], references: [orgs.id] }),
   incidentUpdates: many(incidentUpdates),
+  passwordResetTokens: many(passwordResetTokens),
 }));
+
+export const passwordResetTokensRelations = relations(
+  passwordResetTokens,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [passwordResetTokens.userId],
+      references: [users.id],
+    }),
+  })
+);
 
 export const servicesRelations = relations(services, ({ one, many }) => ({
   org: one(orgs, { fields: [services.orgId], references: [orgs.id] }),

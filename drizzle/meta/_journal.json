@@ -8,6 +8,13 @@
       "when": 1783666438827,
       "tag": "0000_bizarre_johnny_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783837291120,
+      "tag": "0001_silly_the_hunter",
+      "breakpoints": true
     }
   ]
 }
