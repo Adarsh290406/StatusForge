@@ -156,25 +156,19 @@ Features deliberately deferred to **v2** to protect product complexity and initi
   </tr>
   <tr>
     <td align="center"><b>Incidents Management</b></td>
-    <td align="center"><b>Toast Notifications</b></td>
+    <td align="center"><b>Email Verification</b></td>
   </tr>
   <tr>
     <td><img src="docs/screenshots/desktop_incidents.png" width="100%" alt="StatusForge Admin Incidents Page"/></td>
-    <td><img src="docs/screenshots/toast_notifications.png" width="100%" alt="StatusForge Toast Notifications"/></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Email Verification</b></td>
-    <td align="center"><b>Custom 404 Page</b></td>
-  </tr>
-  <tr>
     <td><img src="docs/screenshots/verify_email.png" width="100%" alt="StatusForge Email Verification Page"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Custom 404 Page</b></td>
+    <td align="center"><b>Login with Verification Banner</b></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/custom_404.png" width="100%" alt="StatusForge Custom 404 Page"/></td>
-  </tr>
-  <tr>
-    <td align="center" colspan="2"><b>Login Page with Verification Success Banner</b></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center"><img src="docs/screenshots/login_verified.png" width="55%" alt="StatusForge Login Page with Verification Success"/></td>
+    <td><img src="docs/screenshots/login_verified.png" width="100%" alt="StatusForge Login Page with Verification Success"/></td>
   </tr>
 </table>
 
