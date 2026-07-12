@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -31,10 +29,7 @@ export default function ForgotPasswordPage() {
         throw new Error(data.error || "Failed to request password reset.");
       }
 
-      setSuccess("OTP sent successfully. Redirecting to verification...");
-      setTimeout(() => {
-        router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
-      }, 1500);
+      setSuccess("If your email is registered, we have sent a reset link to it. Please check your developer console/inbox.");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -88,10 +83,10 @@ export default function ForgotPasswordPage() {
           {loading ? (
             <>
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              Sending OTP...
+              Sending Link...
             </>
           ) : (
-            "Send OTP"
+            "Send Reset Link"
           )}
         </button>
       </form>

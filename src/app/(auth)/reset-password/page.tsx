@@ -1,20 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token") || "";
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  useEffect(() => {
+    if (!token) {
+      setError("Reset token is missing or invalid. Please request a new link.");
+    }
+  }, [token]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password || !confirmPassword) return;
+    if (!password || !confirmPassword || !token) return;
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -29,12 +38,12 @@ export default function ResetPasswordPage() {
       const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password, confirmPassword }),
+        body: JSON.stringify({ token, password, confirmPassword }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Password reset failed. Session may have expired.");
+        throw new Error(data.error || "Password reset failed. Token may have expired.");
       }
 
       setSuccess("Password updated successfully! Redirecting to login...");
@@ -79,9 +88,10 @@ export default function ResetPasswordPage() {
             id="new-pw"
             type="password"
             required
+            disabled={!token}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm"
+            className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm disabled:bg-gray-50 dark:disabled:bg-gray-950 disabled:cursor-not-allowed"
             placeholder="••••••••"
           />
         </div>
@@ -94,16 +104,17 @@ export default function ResetPasswordPage() {
             id="confirm-pw"
             type="password"
             required
+            disabled={!token}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm"
+            className="w-full rounded border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm disabled:bg-gray-50 dark:disabled:bg-gray-950 disabled:cursor-not-allowed"
             placeholder="••••••••"
           />
         </div>
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !token}
           className="w-full rounded bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:bg-gray-300 dark:disabled:bg-gray-800 shadow-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
         >
           {loading ? (
@@ -119,9 +130,21 @@ export default function ResetPasswordPage() {
 
       <div className="pt-2 text-center text-xs border-t border-gray-100 dark:border-gray-800">
         <Link href="/forgot-password" className="text-gray-400 dark:text-gray-500 font-semibold hover:text-gray-600 dark:hover:text-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1">
-          ← Start over
+          ← Request new link
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[250px] flex items-center justify-center text-gray-400 font-semibold animate-pulse">
+        Loading...
+      </div>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

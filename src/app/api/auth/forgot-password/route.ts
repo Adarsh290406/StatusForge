@@ -29,11 +29,11 @@ export async function POST(req: Request) {
 
     const user = existingUsers[0];
     if (user) {
-      // 1. Generate 6-digit OTP code
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      // 1. Generate 32-byte reset token
+      const token = crypto.randomBytes(32).toString("hex");
 
       // 2. Hash it with SHA-256
-      const tokenHash = crypto.createHash("sha256").update(otp).digest("hex");
+      const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
 
       // 3. Mark prior reset tokens as used/invalidated
       await db
@@ -41,21 +41,23 @@ export async function POST(req: Request) {
         .set({ used: true })
         .where(eq(passwordResetTokens.userId, user.id));
 
-      // 4. Save new OTP token to DB
+      // 4. Save new token to DB (valid for 15 minutes)
       await db.insert(passwordResetTokens).values({
         userId: user.id,
         tokenHash,
-        expiresAt: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes from now
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000),
         used: false,
       });
 
-      // 5. Console log the OTP for development purposes
-      console.log(`\n========================================\n[DEV ONLY] OTP for ${email}: ${otp}\n========================================\n`);
+      // 5. Console log the reset URL for development purposes
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+      const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+      console.log(`\n================================================================================\n[DEV ONLY] Password Reset Link for ${email}:\n${resetUrl}\n================================================================================\n`);
     }
 
     // Return generic success to protect against email enumeration
     return NextResponse.json({
-      message: "If an account exists, an OTP has been sent.",
+      message: "If an account exists, a reset link has been sent.",
     });
   } catch (err) {
     console.error("Forgot password error:", err);
