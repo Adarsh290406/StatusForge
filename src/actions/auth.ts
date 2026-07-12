@@ -1,16 +1,18 @@
 "use server";
 
 import { db } from "@/db";
-import { users, orgs } from "@/db/schema";
+import { users, orgs, emailVerificationTokens } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import * as argon2 from "@node-rs/argon2";
 import { getSession } from "@/lib/session";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { redirect } from "next/navigation";
+import crypto from "crypto";
 
 export type AuthState = {
   error?: string;
   success?: boolean;
+  message?: string;
 } | null;
 
 export async function login(state: AuthState, formData: FormData): Promise<AuthState> {
@@ -38,6 +40,13 @@ export async function login(state: AuthState, formData: FormData): Promise<AuthS
     const passwordMatch = await argon2.verify(user.passwordHash, password);
     if (!passwordMatch) {
       return { error: "Invalid email or password." };
+    }
+
+    // Check if email is verified
+    if (!user.emailVerified) {
+      return {
+        error: "Please verify your email before logging in. Check the console for the verification link.",
+      };
     }
 
     const session = await getSession();
@@ -101,25 +110,38 @@ export async function signup(state: AuthState, formData: FormData): Promise<Auth
 
     const passwordHash = await argon2.hash(password);
 
+    // Save user with emailVerified = false
     const newUsers = await db.insert(users).values({
       name,
       email,
       passwordHash,
       orgId,
       role,
+      emailVerified: false,
     }).returning({ id: users.id });
 
-    const session = await getSession();
-    session.userId = newUsers[0].id;
-    session.orgId = orgId;
-    session.role = role;
-    await session.save();
+    // Generate random 32-byte email verification token
+    const token = crypto.randomBytes(32).toString("hex");
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+    // Store in emailVerificationTokens table (24 hours TTL)
+    await db.insert(emailVerificationTokens).values({
+      userId: newUsers[0].id,
+      tokenHash,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      used: false,
+    });
+
+    // Log the verification link to the console
+    console.log(`\n================================================================================\n[DEV ONLY] Email Verification Link for ${email}:\nhttp://localhost:3000/verify-email?token=${token}\n================================================================================\n`);
+
   } catch (err) {
     console.error("Signup error:", err);
     return { error: "Failed to create account. Please try again." };
   }
 
-  redirect("/admin");
+  // Redirect to login page with a query flag pointing out they need verification link
+  redirect("/login?registered=true");
 }
 
 export async function logout() {

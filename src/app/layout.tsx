@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className={cn("font-sans antialiased bg-[#f9fafb] dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-150", inter.className)}>
         <ThemeProvider>
           {children}
+          <Toaster richColors position="top-right" />
         </ThemeProvider>
       </body>
     </html>

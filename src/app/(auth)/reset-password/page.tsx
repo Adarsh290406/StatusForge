@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 function ResetPasswordContent() {
   const router = useRouter();
@@ -47,11 +48,13 @@ function ResetPasswordContent() {
       }
 
       setSuccess("Password updated successfully! Redirecting to login...");
+      toast.success("Password updated successfully!");
       setTimeout(() => {
         router.push("/login");
       }, 2000);
     } catch (err: any) {
       setError(err.message);
+      toast.error(err.message || "Failed to reset password.");
     } finally {
       setLoading(false);
     }

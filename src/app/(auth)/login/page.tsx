@@ -1,15 +1,39 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, Suspense, useEffect } from "react";
 import { login } from "@/actions/auth";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 
-export default function LoginPage() {
+function LoginForm() {
   const [state, action, isPending] = useActionState(login, null);
+  const searchParams = useSearchParams();
+
+  const verified = searchParams.get("verified");
+  const verifyError = searchParams.get("verifyError");
+  const registered = searchParams.get("registered");
+
+  useEffect(() => {
+    if (verified === "true") {
+      toast.success("Email verified successfully! You can now log in.");
+    }
+    if (verifyError) {
+      toast.error("Email verification failed. The link may be invalid or expired.");
+    }
+    if (registered === "true") {
+      toast.info("Account registered! Please verify your email before logging in.");
+    }
+  }, [verified, verifyError, registered]);
+
+  useEffect(() => {
+    if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state]);
 
   return (
     <div className="space-y-6">
-
       {/* Brand Header */}
       <div className="space-y-2 text-center pt-2">
         <Link href="/" className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded">
@@ -19,6 +43,30 @@ export default function LoginPage() {
       </div>
 
       <form action={action} className="space-y-4">
+        {/* Verification Success Alert */}
+        {verified === "true" && (
+          <div className="rounded-md bg-green-50 dark:bg-green-950/20 p-3 text-xs text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900/30">
+            Email verified successfully! You can now log in.
+          </div>
+        )}
+
+        {/* Verification Error Alert */}
+        {verifyError && (
+          <div className="rounded-md bg-red-50 dark:bg-red-950/20 p-3 text-xs text-red-600 dark:text-red-400 border border-red-150 dark:border-red-900/30">
+            {verifyError === "invalid_or_expired"
+              ? "The verification link was invalid or has expired."
+              : "Email verification failed. Please try again."}
+          </div>
+        )}
+
+        {/* Registered Success Info Alert */}
+        {registered === "true" && (
+          <div className="rounded-md bg-blue-50 dark:bg-blue-950/20 p-3 text-xs text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/30">
+            Account created! Please check your server console/logs for the email verification link to verify your account.
+          </div>
+        )}
+
+        {/* General Form Error Alert */}
         {state?.error && (
           <div className="rounded-md bg-red-50 dark:bg-red-950/20 p-3 text-xs text-red-600 dark:text-red-400 border border-red-150 dark:border-red-900/30">
             {state.error}
@@ -82,5 +130,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[250px] flex items-center justify-center text-gray-400 font-semibold animate-pulse">
+        Loading...
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

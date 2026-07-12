@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -29,9 +30,12 @@ export default function ForgotPasswordPage() {
         throw new Error(data.error || "Failed to request password reset.");
       }
 
-      setSuccess("If your email is registered, we have sent a reset link to it. Please check your developer console/inbox.");
+      const msg = "If your email is registered, we have sent a reset link to it. Please check your developer console/inbox.";
+      setSuccess(msg);
+      toast.success("Password reset request sent successfully.");
     } catch (err: any) {
       setError(err.message);
+      toast.error(err.message || "Failed to request password reset.");
     } finally {
       setLoading(false);
     }

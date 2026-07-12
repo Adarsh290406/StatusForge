@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { logout } from "@/actions/auth";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { toast } from "sonner";
 
 type Service = {
   id: string;
@@ -68,17 +69,27 @@ export default function AdminDashboard() {
         const data = await res.json();
         throw new Error(data.error || "Operation failed");
       }
+      toast.success(editId ? "Service updated successfully." : "Service created successfully.");
       setShowModal(false);
       setName("");
       setDescription("");
       setEditId(null);
       fetchServices();
     } catch (err: any) {
-      alert(err.message);
+      toast.error(err.message || "Failed to save service.");
     }
   };
 
-  const handleStatusChange = async (id: string, newStatus: string) => {
+  const handleStatusChange = async (id: string, newStatus: any) => {
+    const originalService = services.find((s) => s.id === id);
+    if (!originalService) return;
+    const oldStatus = originalService.status;
+
+    // Optimistically update UI
+    setServices((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, status: newStatus } : s))
+    );
+
     try {
       const res = await fetch(`/api/services/${id}`, {
         method: "PUT",
@@ -86,9 +97,14 @@ export default function AdminDashboard() {
         body: JSON.stringify({ status: newStatus }),
       });
       if (!res.ok) throw new Error("Failed to update status");
+      toast.success(`Service "${originalService.name}" is now ${newStatus}.`);
       fetchServices();
     } catch (err: any) {
-      alert(err.message);
+      // Revert UI on failure
+      setServices((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, status: oldStatus } : s))
+      );
+      toast.error(err.message || "Failed to update service status.");
     }
   };
 
@@ -101,9 +117,10 @@ export default function AdminDashboard() {
       if (!res.ok) {
         throw new Error(data.error || "Failed to delete");
       }
+      toast.success("Service deleted successfully.");
       fetchServices();
     } catch (err: any) {
-      alert(err.message);
+      toast.error(err.message || "Failed to delete service.");
     }
   };
 
@@ -128,8 +145,10 @@ export default function AdminDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ order: updatedOrder }),
       });
-      if (!res.ok) throw new Error();
-    } catch (err) {
+      if (!res.ok) throw new Error("Failed to save order");
+      toast.success("Service order re-arranged.");
+    } catch (err: any) {
+      toast.error("Failed to reorder services.");
       fetchServices();
     }
   };

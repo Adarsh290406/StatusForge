@@ -15,6 +15,13 @@
       "when": 1783837291120,
       "tag": "0001_silly_the_hunter",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783842598801,
+      "tag": "0002_previous_lizard",
+      "breakpoints": true
     }
   ]
 }

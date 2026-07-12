@@ -1,11 +1,18 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { signup } from "@/actions/auth";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function SignupPage() {
   const [state, action, isPending] = useActionState(signup, null);
+
+  useEffect(() => {
+    if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state]);
 
   return (
     <div className="space-y-6">

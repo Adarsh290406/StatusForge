@@ -5,12 +5,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logout } from "@/actions/auth";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { toast } from "sonner";
 
 type Update = {
   id: string;
   message: string;
   statusAtTime: string;
   createdAt: string;
+};
+
+type Service = {
+  id: string;
+  name: string;
 };
 
 type Incident = {
@@ -22,21 +28,17 @@ type Incident = {
   serviceIds: string[];
 };
 
-type Service = {
-  id: string;
-  name: string;
-};
-
 export default function IncidentDetails({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const { id } = use(params);
+  const resolvedParams = use(params);
+  const id = resolvedParams.id;
 
   const [incident, setIncident] = useState<Incident | null>(null);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Update Form Fields
+  // Update Form
   const [message, setMessage] = useState("");
   const [statusAtTime, setStatusAtTime] = useState("investigating");
   const [showResolveModal, setShowResolveModal] = useState(false);
@@ -49,8 +51,14 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
       const servicesRes = await fetch("/api/services");
       if (!incidentRes.ok || !servicesRes.ok) throw new Error();
 
-      setIncident(await incidentRes.json());
+      const incData = await incidentRes.json();
+      setIncident(incData);
       setServices(await servicesRes.json());
+      
+      // Sync the update form status statusAtTime to the incident's current status if not resolved
+      if (incData.status !== "resolved") {
+        setStatusAtTime(incData.status);
+      }
     } catch (err) {
       setError("Failed to fetch incident details.");
     } finally {
@@ -80,11 +88,12 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message, statusAtTime }),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error("Failed to post update");
+      toast.success("Incident update posted successfully.");
       setMessage("");
       fetchData();
-    } catch (err) {
-      alert("Failed to post update.");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to post update.");
     }
   };
 
@@ -98,12 +107,13 @@ export default function IncidentDetails({ params }: { params: Promise<{ id: stri
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message, statusAtTime: "resolved" }),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error("Failed to resolve incident");
+      toast.success("Incident resolved successfully.");
       setShowResolveModal(false);
       setMessage("");
       fetchData();
-    } catch (err) {
-      alert("Failed to resolve incident.");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to resolve incident.");
     }
   };
 

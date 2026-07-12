@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { toast } from "sonner";
 
 type Incident = {
   id: string;
@@ -79,12 +80,13 @@ export default function IncidentsDashboard() {
       });
 
       if (!res.ok) throw new Error();
+      toast.success("Incident reported successfully.");
       setShowModal(false);
       setTitle("");
       setSelectedServiceIds([]);
       fetchData();
     } catch (err) {
-      alert("Failed to create incident.");
+      toast.error("Failed to report incident.");
     }
   };
 
