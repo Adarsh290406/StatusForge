@@ -42,12 +42,7 @@ export async function login(state: AuthState, formData: FormData): Promise<AuthS
       return { error: "Invalid email or password." };
     }
 
-    // Check if email is verified
-    if (!user.emailVerified) {
-      return {
-        error: "Please verify your email before logging in. Check the console for the verification link.",
-      };
-    }
+    // Email verification check bypassed — users are auto-verified on signup
 
     const session = await getSession();
     session.userId = user.id;
@@ -110,14 +105,14 @@ export async function signup(state: AuthState, formData: FormData): Promise<Auth
 
     const passwordHash = await argon2.hash(password);
 
-    // Save user with emailVerified = false
+    // Auto-verify on signup so users can log in immediately
     const newUsers = await db.insert(users).values({
       name,
       email,
       passwordHash,
       orgId,
       role,
-      emailVerified: false,
+      emailVerified: true,
     }).returning({ id: users.id });
 
     // Generate random 32-byte email verification token
@@ -140,8 +135,8 @@ export async function signup(state: AuthState, formData: FormData): Promise<Auth
     return { error: "Failed to create account. Please try again." };
   }
 
-  // Redirect to login page with a query flag pointing out they need verification link
-  redirect("/login?registered=true");
+  // Redirect straight to login — user is already verified and can log in immediately
+  redirect("/login");
 }
 
 export async function logout() {
